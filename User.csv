@@ -1,4 +1,9 @@
-"UserID";"Email";"Password";"FirstName";"LasName";"TelephoneNumber"
-1234;"johnrega21@hotmail.com";"123Password!";"John";"Rega";678942332
-5678;"alexharper@gmail.com";"NatureRocks!";"Alex";"Harper";404897123
-9876;"steph27@ymail.com";"CorporateBaddie1!";"Stephanie ";"Culler";770987678
+CREATE TABLE `User` (
+  `UserID` int NOT NULL,
+  `Email` varchar(25) DEFAULT NULL,
+  `Password` varchar(25) DEFAULT NULL,
+  `FirstName` varchar(15) DEFAULT NULL,
+  `LasName` varchar(15) DEFAULT NULL,
+  `TelephoneNumber` int DEFAULT NULL,
+  PRIMARY KEY (`UserID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
