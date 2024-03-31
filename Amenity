@@ -1,0 +1,4 @@
+CREATE TABLE `Amenity` (
+  `AmenityID` int NOT NULL,
+  `AmenityName` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`AmenityID`)
