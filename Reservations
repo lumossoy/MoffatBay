@@ -12,3 +12,4 @@ CREATE TABLE `Reservations` (
   KEY `RoomID_idx` (`RoomID`),
   CONSTRAINT `RoomID` FOREIGN KEY (`RoomID`) REFERENCES `Rooms` (`RoomID`)
   CONSTRAINT `Email` FOREIGN KEY (`Email`) REFERENCES `User` (`Email`)
+)
