@@ -22,15 +22,6 @@ INSERT INTO Users (Email, Password, FirstName, LastName, TelephoneNumber) VALUES
 ('alexharper@gmail.com', 'NatureRocks!', 'Alex', 'Harper', 404897123),
 ('steph27@ymail.com', 'CorporateBaddie1', 'Stephanie', 'Culler', 710987678);
 
--- User_Reservations Table
-CREATE TABLE IF NOT EXISTS User_Reservations (
-    UserID INT,
-    ReservationID INT,
-    PRIMARY KEY (UserID, ReservationID),
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (ReservationID) REFERENCES Reservations(ReservationID)
-) ENGINE=InnoDB;
-
 -- Reservations Table
 -- Set AUTO_INCREMENT to start at 2000 for Reservations again this is just a plac holder until the team decides
 CREATE TABLE IF NOT EXISTS Reservations (
@@ -96,5 +87,14 @@ INSERT INTO Attractions (ReservationID, Activity) VALUES
 (2001, 'Kayaking'),
 (2002, 'Scuba Diving'),
 (2000, 'Whale Watching');
+
+-- User_Reservations Table
+CREATE TABLE IF NOT EXISTS User_Reservations (
+    UserID INT,
+    ReservationID INT,
+    PRIMARY KEY (UserID, ReservationID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ReservationID) REFERENCES Reservations(ReservationID)
+) ENGINE=InnoDB;
 
 
