@@ -3,8 +3,10 @@
 -- Quick team notes: I used the 'AUTO_INCREMENT' for primary keys where it is not specified how they are generated.
 -- We can always modify the 'ENGINE=InnoDB' as I understand, this is used to support foreign key constraints.
 -- Added 3 entries per Attribute per Emely's entries
+-- Adjustments made per Juan's suggestions: Set AUTO_INCREMENT starting values for coherence and better alignment, trimmed the RoomType ENUM values
 
 -- Users Table
+-- Set AUTO_INCREMENT to start at 1000 for Users but we can always adjust this to what the team sees fit
 CREATE TABLE IF NOT EXISTS Users (
     UserID INT AUTO_INCREMENT,
     FirstName VARCHAR(15),
@@ -13,13 +15,12 @@ CREATE TABLE IF NOT EXISTS Users (
     Password VARCHAR(25),
     TelephoneNumber INT,
     PRIMARY KEY (UserID)
-) ENGINE=InnoDB;
+) AUTO_INCREMENT = 1000 ENGINE=InnoDB;
 
--- Insert data into Users table
-INSERT INTO Users (UserID, Email, Password, FirstName, LastName, TelephoneNumber) VALUES
-(1234, 'johnrega21@hotmail.com', '123Password!', 'John', 'Rega', 678942332),
-(5678, 'alexharper@gmail.com', 'NatureRocks!', 'Alex', 'Harper', 404897123),
-(9876, 'steph27@ymail.com', 'CorporateBaddie1', 'Stephanie', 'Culler', 710987678);
+INSERT INTO Users (Email, Password, FirstName, LastName, TelephoneNumber) VALUES
+('johnrega21@hotmail.com', '123Password!', 'John', 'Rega', 678942332),
+('alexharper@gmail.com', 'NatureRocks!', 'Alex', 'Harper', 404897123),
+('steph27@ymail.com', 'CorporateBaddie1', 'Stephanie', 'Culler', 710987678);
 
 -- User_Reservations Table
 CREATE TABLE IF NOT EXISTS User_Reservations (
@@ -30,14 +31,8 @@ CREATE TABLE IF NOT EXISTS User_Reservations (
     FOREIGN KEY (ReservationID) REFERENCES Reservations(ReservationID)
 ) ENGINE=InnoDB;
 
--- Insert data into User_Reservations table
-INSERT INTO User_Reservations (UserID, ReservationID) VALUES
-(1234, 1005),
-(5678, 2006),
-(9876, 3007);
-
 -- Reservations Table
--- Note: Adjusted to include the 'Email' and 'RoomID' columns as per the provided data image
+-- Set AUTO_INCREMENT to start at 2000 for Reservations again this is just a plac holder until the team decides
 CREATE TABLE IF NOT EXISTS Reservations (
     ReservationID INT AUTO_INCREMENT,
     Email VARCHAR(25),
@@ -45,59 +40,61 @@ CREATE TABLE IF NOT EXISTS Reservations (
     CheckInDate DATE,
     CheckOutDate DATE,
     TotalGuests INT,
-    ConfirmationNum INT,
     PRIMARY KEY (ReservationID),
     FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID)
-) ENGINE=InnoDB;
+) AUTO_INCREMENT = 2000 ENGINE=InnoDB;
 
--- Insert data into Reservations table
-INSERT INTO Reservations (ReservationID, Email, RoomID, CheckInDate, CheckOutDate, TotalGuests, ConfirmationNum) VALUES
-(1005, 'johnrega21@hotmail.com', 789, '2024-04-01', '2024-04-07', 4, 34),
-(2006, 'alexharper@gmail.com', 456, '2024-07-18', '2024-07-25', 1, 12),
-(3007, 'steph27@ymail.com', 789, '2024-10-24', '2024-11-24', 4, 56);
+INSERT INTO Reservations (Email, RoomID, CheckInDate, CheckOutDate, TotalGuests) VALUES
+('johnrega21@hotmail.com', 101, '2024-04-01', '2024-04-07', 4),
+('alexharper@gmail.com', 102, '2024-07-18', '2024-07-25', 1),
+('steph27@ymail.com', 103, '2024-10-24', '2024-11-24', 2);
 
 -- Rooms Table
+-- Set AUTO_INCREMENT to start at 100 for Rooms I figure it would make more sense since normally thats how rooms are numbered
+-- Updated the ENUM to only have 'double full', 'queen', 'double queen', 'king' as the values so it can be trimmed
 CREATE TABLE IF NOT EXISTS Rooms (
     RoomID INT AUTO_INCREMENT,
-    RoomType ENUM('Single', 'Double', 'Suite', 'Deluxe', 'double', 'queen', 'double queen', 'king') NOT NULL,
+    RoomType ENUM('double full', 'queen', 'double queen', 'king') NOT NULL,
     RoomPrice DECIMAL(8, 2),
     PRIMARY KEY (RoomID)
-) ENGINE=InnoDB;
+) AUTO_INCREMENT = 100 ENGINE=InnoDB;
 
--- Insert data into Rooms table
-INSERT INTO Rooms (RoomID, RoomType, RoomPrice) VALUES
-(123, 'double', 150.00),
-(456, 'queen', 200.00),
-(789, 'double queen', 275.00),
-(321, 'king', 350.00);
+INSERT INTO Rooms (RoomType, RoomPrice) VALUES
+('double full', 150.00),
+('queen', 200.00),
+('double queen', 275.00),
+('king', 350.00);
 
 -- Amenities Table
+-- Set AUTO_INCREMENT to start at 10 for Amenities unless you guys have better suggestions 
 CREATE TABLE IF NOT EXISTS Amenities (
     AmenityID INT AUTO_INCREMENT,
     RoomID INT,
     AmenityName VARCHAR(25),
     PRIMARY KEY (AmenityID),
     FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID)
-) ENGINE=InnoDB;
+) AUTO_INCREMENT = 10 ENGINE=InnoDB;
 
--- Insert data into Amenities table
-INSERT INTO Amenities (AmenityID, RoomID, AmenityName) VALUES
-(12, 123, 'High Speed WiFi'),
-(34, 456, 'Satellite TV'),
-(56, 789, 'Conference Room');
+
+INSERT INTO Amenities (RoomID, AmenityName) VALUES
+(101, 'High Speed WiFi'),
+(102, 'Satellite TV'),
+(193, 'Conference Room');
 
 -- Attractions Table
+-- Set AUTO_INCREMENT to start at 1 for Attractions again unless there is other suggestions
 CREATE TABLE IF NOT EXISTS Attractions (
     AttractionsID INT AUTO_INCREMENT,
     ReservationID INT,
     Activity VARCHAR(30),
     PRIMARY KEY (AttractionsID),
     FOREIGN KEY (ReservationID) REFERENCES Reservations(ReservationID)
-) ENGINE=InnoDB;
+) AUTO_INCREMENT = 1 ENGINE=InnoDB;
 
--- Insert data into Attractions table
-INSERT INTO Attractions (AttractionsID, ReservationID, Activity) VALUES
-(1, 1005, 'Hiking'),
-(2, 2006, 'Kayaking'),
-(3, 3007, 'Scuba Diving'),
-(4, 1005, 'Whale Watching');
+INSERT INTO Attractions (ReservationID, Activity) VALUES
+(2000, 'Hiking'),
+(2001, 'Kayaking'),
+(2002, 'Scuba Diving'),
+(2000, 'Whale Watching');
+
+
