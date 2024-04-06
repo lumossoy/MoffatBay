@@ -22,6 +22,22 @@ INSERT INTO Users (Email, Password, FirstName, LastName, TelephoneNumber) VALUES
 ('alexharper@gmail.com', 'NatureRocks!', 'Alex', 'Harper', 404897123),
 ('steph27@ymail.com', 'CorporateBaddie1', 'Stephanie', 'Culler', 710987678);
 
+-- Rooms Table
+-- Set AUTO_INCREMENT to start at 100 for Rooms I figure it would make more sense since normally thats how rooms are numbered
+-- Updated the ENUM to only have 'double full', 'queen', 'double queen', 'king' as the values so it can be trimmed
+CREATE TABLE IF NOT EXISTS Rooms (
+    RoomID INT AUTO_INCREMENT,
+    RoomType ENUM('double full', 'queen', 'double queen', 'king') NOT NULL,
+    RoomPrice DECIMAL(8, 2),
+    PRIMARY KEY (RoomID)
+) AUTO_INCREMENT = 100 ENGINE=InnoDB;
+
+INSERT INTO Rooms (RoomType, RoomPrice) VALUES
+('double full', 150.00),
+('queen', 200.00),
+('double queen', 275.00),
+('king', 350.00);
+
 -- Reservations Table
 -- Set AUTO_INCREMENT to start at 2000 for Reservations again this is just a plac holder until the team decides
 CREATE TABLE IF NOT EXISTS Reservations (
@@ -39,22 +55,6 @@ INSERT INTO Reservations (Email, RoomID, CheckInDate, CheckOutDate, TotalGuests)
 ('johnrega21@hotmail.com', 101, '2024-04-01', '2024-04-07', 4),
 ('alexharper@gmail.com', 102, '2024-07-18', '2024-07-25', 1),
 ('steph27@ymail.com', 103, '2024-10-24', '2024-11-24', 2);
-
--- Rooms Table
--- Set AUTO_INCREMENT to start at 100 for Rooms I figure it would make more sense since normally thats how rooms are numbered
--- Updated the ENUM to only have 'double full', 'queen', 'double queen', 'king' as the values so it can be trimmed
-CREATE TABLE IF NOT EXISTS Rooms (
-    RoomID INT AUTO_INCREMENT,
-    RoomType ENUM('double full', 'queen', 'double queen', 'king') NOT NULL,
-    RoomPrice DECIMAL(8, 2),
-    PRIMARY KEY (RoomID)
-) AUTO_INCREMENT = 100 ENGINE=InnoDB;
-
-INSERT INTO Rooms (RoomType, RoomPrice) VALUES
-('double full', 150.00),
-('queen', 200.00),
-('double queen', 275.00),
-('king', 350.00);
 
 -- Amenities Table
 -- Set AUTO_INCREMENT to start at 10 for Amenities unless you guys have better suggestions 
