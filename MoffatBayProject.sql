@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS Reservations (
 CREATE TABLE IF NOT EXISTS Rooms (
     RoomID INT AUTO_INCREMENT NOT NULL,
     ReservationID INT NOT NULL,
-    RoomType ENUM('double queen', 'king', 'suite') NOT NULL,
+    RoomType ENUM('double full beds', 'queen', 'double queen', 'king',) NOT NULL,
     RoomPrice DECIMAL(8, 2) NOT NULL,
     PRIMARY KEY (RoomID),
     FOREIGN KEY (ReservationID) REFERENCES Reservations(ReservationID)
@@ -79,9 +79,9 @@ INSERT INTO Reservations (CheckInDate, CheckOutDate, TotalGuests, ConfirmationNu
 
 -- Add Initial Rooms
 INSERT INTO Rooms (ReservationID, RoomType, RoomPrice) VALUES
-(1, 'double queen', 115.00),
-(2, 'king', 135.00),
-(3, 'suite', 300.00);
+(1, 'double queen', 150.00),
+(2, 'king', 115.00),
+(3, 'king', 115.00);
 
 -- Add Initial Amenities
 INSERT INTO Amenities (RoomID, AmenityName) VALUES
