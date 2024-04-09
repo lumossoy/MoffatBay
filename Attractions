@@ -1,5 +1,0 @@
-CREATE TABLE `Attractions` (
-  `AttractionsID` int NOT NULL,
-  `Activity` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`AttractionsID`)
-)
