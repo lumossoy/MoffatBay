@@ -11,7 +11,7 @@
         <h1>Home page</h1>
         <b>${user.firstName} (${user.email})</b>
         <br><br>
-        <a href="/logout">Logout</a>
+        <a href="landingPage.jsp">Logout</a>
     </div>
 </body>
 </html>
