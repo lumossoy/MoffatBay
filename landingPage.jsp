@@ -8,7 +8,7 @@
 <title>Landing Page</title>
 
 <style>
-        /* Basic CSS for layout and styling */
+        /* CSS for layout and styling WILL MAKE SEPARATE FILE LATER */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
