@@ -1,7 +1,0 @@
-CREATE TABLE `Amenity` (
-    AmenityID INT AUTO_INCREMENT,
-    RoomID INT,
-    AmenityName VARCHAR(25),
-    PRIMARY KEY (AmenityID),
-    FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID)
-)
