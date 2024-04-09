@@ -1,7 +1,0 @@
-CREATE TABLE `Rooms` (
-  `RoomID` int NOT NULL,
-  `RoomType` enum('double full','double queen','king') DEFAULT NULL,
-  `RoomPrice` float DEFAULT NULL,
-  `AmenityID` int DEFAULT NULL,
-  PRIMARY KEY (`RoomID`)
-) 
