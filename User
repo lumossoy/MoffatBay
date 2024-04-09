@@ -1,9 +1,0 @@
-CREATE TABLE `User` (
-  `UserID` int NOT NULL,
-  `Email` varchar(25) DEFAULT NULL,
-  `Password` varchar(25) DEFAULT NULL,
-  `FirstName` varchar(15) DEFAULT NULL,
-  `LasName` varchar(15) DEFAULT NULL,
-  `TelephoneNumber` int DEFAULT NULL,
-  PRIMARY KEY (`UserID`)
-) 
