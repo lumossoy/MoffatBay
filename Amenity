@@ -1,5 +1,7 @@
 CREATE TABLE `Amenity` (
-  `AmenityID` int NOT NULL,
-  `AmenityName` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`AmenityID`)
+    AmenityID INT AUTO_INCREMENT,
+    RoomID INT,
+    AmenityName VARCHAR(25),
+    PRIMARY KEY (AmenityID),
+    FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID)
 )
