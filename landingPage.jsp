@@ -8,7 +8,7 @@
 	<title>Landing Page</title>
 </head>
 <body>
-	<div class="navbar">
+	<div class="navigation">
 		<header>
       		<h1>Moffat Bay Lodge</h1>
           	<nav>
