@@ -92,7 +92,7 @@ button:hover {
 
 /* image set to the right of the web page */
 .bg-img {
-  background-image: url("images/loginImage.png");
+  background-image: url("images/registerImage.png");
   background-repeat: no-repeat;
    width: 40%;
    position: absolute;
