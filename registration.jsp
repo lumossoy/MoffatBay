@@ -15,7 +15,7 @@ body {
 
 h1 {
     font-family: 'Berkshire Swash';
-    font-size: 25px;
+    font-size: 55px;
     color: #1CADFB;
     text-align: center;
     margin-bottom: 15px;
@@ -125,7 +125,7 @@ button:hover {
 </style>
 <body>
 <div class="bg-img"></div> 
-<form action="" method="POST">
+<form action="signup" method="POST">
   <div class="container">
     <h1>Moffat Bay Lodge</h1>
     <p>Welcome GUEST</p>
@@ -134,10 +134,10 @@ button:hover {
 
     <label for="fname"><b>First Name</b></label><label for="lname"  class="lnameLabel"><b>Last Name</b></label><br>
     <div class="fname">
-    <input type="text" placeholder="Enter First Name" name="fname" required>
+    <input type="text" placeholder="Enter First Name" name="firstName" required>
     </div>
     <div class="lname">
-    <input type="text" placeholder="Enter Last Name" name="lname" required><br>
+    <input type="text" placeholder="Enter Last Name" name="lastName" required><br>
     </div><br>
     <label for="telephone"><b>Telephone</b></label><br>
     <input type="tel" placeholder="Enter Telephone" name="telephone" required><br>
@@ -145,8 +145,8 @@ button:hover {
     <label for="email"><b>Email</b></label><br>
     <input type="email" placeholder="Enter Email" name="email" required><br>
 
-    <label for="psw"><b>Password</b></label><br>
-    <input type="password" placeholder="Enter Password" name="psw" required><br>
+    <label for="password"><b>Password</b></label><br>
+    <input type="password" placeholder="Enter Password" name="password" required><br>
 
     <label for="psw-confirm"><b>Confirm Password</b></label><br>
     <input type="password" placeholder="Confirm Password" name="psw-confirm" required><br>
