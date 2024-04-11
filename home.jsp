@@ -146,8 +146,6 @@ button {
         <!-- Our content here -->
         <div class="topleft">
         <b>${user.firstName} (${user.email})</b>
-        <br>
-        <a href="landingPage.jsp">Logout</a>
         </div>
         <div class="centered"><h2>Enjoy out luxury Lodges</h2><br><h3>Book your vacation at a Dream Location</h3></div>
         <!-- More content -->
