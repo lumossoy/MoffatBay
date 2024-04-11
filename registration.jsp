@@ -130,8 +130,8 @@ button:hover {
     <h1>Moffat Bay Lodge</h1>
     <p>Welcome GUEST</p>
     <p style="padding-bottom: 15px;">Please complete the sign up form.</p>
-
-
+	<!-- also need to add password verification to ensure password matches and meet requirements//hashing ensure 
+         * users cannot enter undesired elements or characters into the fields-->
     <label for="fname"><b>First Name</b></label><label for="lname"  class="lnameLabel"><b>Last Name</b></label><br>
     <div class="fname">
     <input type="text" placeholder="Enter First Name" name="firstName" required>
