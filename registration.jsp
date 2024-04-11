@@ -51,7 +51,7 @@ label {
 }
 
 <!-- editing the size of the input fields -->
-input[type=text], input[type=tel], input[type=password] {
+input[type=text], input[type=tel], input[type=email], input[type=password] {
   width: 50%;
   padding: 15px;
   margin: 5px 0 22px 225px;
@@ -143,7 +143,7 @@ button:hover {
     <input type="tel" placeholder="Enter Telephone" name="telephone" required><br>
 
     <label for="email"><b>Email</b></label><br>
-    <input type="text" placeholder="Enter Email" name="email" required><br>
+    <input type="email" placeholder="Enter Email" name="email" required><br>
 
     <label for="psw"><b>Password</b></label><br>
     <input type="password" placeholder="Enter Password" name="psw" required><br>
