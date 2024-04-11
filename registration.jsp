@@ -50,7 +50,7 @@ label {
 	padding-left: 190px;
 }
 
-<!-- editing the size of the input fields -->
+/* editing the size of the input fields */
 input[type=text], input[type=tel], input[type=email], input[type=password] {
   width: 50%;
   padding: 15px;
@@ -66,7 +66,7 @@ input[type=text]:focus, input[type=password]:focus {
 }
 
 
-<!-- setting the style for button -->
+/* setting the style for button */
 button {
   background-color: #1CADFB;
   color: white;
@@ -83,14 +83,14 @@ button:hover {
 }
 
 
-<!-- setting position of create account button -->
+/* setting position of create account button */
 .createAcctbtn {
   margin-left: 225px;
   padding: 20px;
   width: 50%;
 }
 
-<!-- image set to the right of the web page -->
+/* image set to the right of the web page */
 .bg-img {
   background-image: url("images/loginImage.png");
   background-repeat: no-repeat;
@@ -100,7 +100,7 @@ button:hover {
    height: 100%;
 }
 
-<!-- container elements -->
+/* container elements */
 .container {
    width: 50%;
    position: absolute;
@@ -116,7 +116,7 @@ button:hover {
   display: table;
 }
 
-<!-- Change styles for create button when using small screens --> 
+/* Change styles for create button when using small screens */ 
 @media screen and (max-width: 300px) {
 	.createAcctbtn {
      width: 100%;
