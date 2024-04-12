@@ -133,7 +133,7 @@ button {
 	      		<li><a href="#reservations">Reservations</a></li>
 	      		<li><a href="#about">About Us</a></li>
 	      		<%if (request.isRequestedSessionIdValid() == true){ %>
-					<li><a href="landingPage.jsp">Logout</a></li>
+					<li><a href="landingPage.jsp"><button type="submit">Logout</button></a></li>
 				<%}else {%>
 	      			<li><a href="login.jsp"><button type="submit">Login</button></a></li>
 	      		<%}%>
