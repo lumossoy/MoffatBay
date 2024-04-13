@@ -30,9 +30,9 @@
         <nav>
             <ul>
                 <li><a href="doubleFull.jsp">Double Full Beds</a></li>
-                <li><a href="#queen">Queen</a></li>
-                <li><a href="#doubleQueen">Double Queen Bed</a></li>
-                <li><a href="#king">King</a></li>
+                <li><a href="queen.jsp">Queen</a></li>
+                <li><a href="doubleQueen.jsp">Double Queen Bed</a></li>
+                <li><a href="king.jsp">King</a></li>
             </ul>
         </nav>
         <hr width="100%" size="2">
