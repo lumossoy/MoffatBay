@@ -18,7 +18,6 @@ function validateForm() {
     var emailMessage = document.getElementById("emailMessage");
     var telephoneMessage = document.getElementById("telephoneMessage");
 
-    // Initial settings
     passwordMessage.innerHTML = '';
     emailMessage.innerHTML = '';
     telephoneMessage.innerHTML = '';
@@ -27,7 +26,6 @@ function validateForm() {
     telephoneMessage.style.color = 'red';
     submitButton.disabled = true;
 
-    // Validate inputs
     if (!email.includes('@')) {
         emailMessage.innerHTML = 'Invalid email';
         return;
@@ -52,8 +50,6 @@ function validateForm() {
         passwordMessage.innerHTML = 'Password must contain at least one integer!';
         return;
     }
-
-    // Conditions valid
     passwordMessage.style.color = 'green';
     passwordMessage.innerHTML = 'All input fields are valid!';
     submitButton.disabled = false;
@@ -178,15 +174,15 @@ button:hover {
         </div>
         <br> <label for="telephone"><b>Telephone</b></label><br>
         <input type="tel" placeholder="Enter Telephone" name="telephone" required onkeyup="validateForm()" onchange="validateForm()"><br>
-        <div id="telephoneMessage"></div> 
+        <div id="telephoneMessage"></div>
         <label for="email"><b>Email</b></label><br>
         <input type="email" placeholder="Enter Email" name="email" required onkeyup="validateForm()" onchange="validateForm()"><br>
-        <div id="emailMessage"></div> 
+        <div id="emailMessage"></div>
         <label for="password"><b>Password</b></label><br>
         <input type="password" placeholder="Enter Password" name="password" required onkeyup="validateForm()" onchange="validateForm()"><br>
         <label for="passwordConfirm"><b>Confirm Password</b></label><br>
         <input type="password" placeholder="Confirm Password" name="passwordConfirm" required onkeyup="validateForm()" onchange="validateForm()"><br>
-        <div id="passwordMessage"></div> 
+        <div id="passwordMessage"></div>
         <div class="clearfix">
             <button type="submit" class="createAcctbtn" disabled>Create Account</button>
         </div>
@@ -197,3 +193,4 @@ button:hover {
 </form>
 </body>
 </html>
+
