@@ -70,10 +70,10 @@ nav ul li a:hover {
 
 p {
     color: #47525E;
-    font-family: "Bree Serif", sans-serif;
-    font-size: 20px;
-    line-height: 26px;
-    text-align: justify; /* Justify text for better readability */
+  	font-family: Bree Serif;
+  	font-size: 17px;
+  	line-height: 22px;
+  	text-align: left; /* Justify text for better readability */
 }
 
 img {
@@ -88,4 +88,11 @@ h2 {
     font-size: 30px;
     line-height: 35px; /* Increase line height for better spacing */
     text-align: center;
+}
+h3 {
+	color: #1CADFB;
+  	font-family: Bree Serif;
+  	font-size: 25px;
+ 	line-height: 32px;
+  	text-align: left;
 }
