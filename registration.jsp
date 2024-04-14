@@ -5,58 +5,6 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Registration Page</title>
-<script>
-function validateForm() {
-    var firstName = document.getElementsByName("firstName")[0].value;
-    var lastName = document.getElementsByName("lastName")[0].value;
-    var telephone = document.getElementsByName("telephone")[0].value;
-    var email = document.getElementsByName("email")[0].value;
-    var passwordInitial = document.getElementsByName("password")[0].value;
-    var passwordConfirm = document.getElementsByName("passwordConfirm")[0].value;
-    var submitButton = document.querySelector(".createAcctbtn");
-    var passwordMessage = document.getElementById("passwordMessage");
-    var emailMessage = document.getElementById("emailMessage");
-    var telephoneMessage = document.getElementById("telephoneMessage");
-
-    passwordMessage.innerHTML = '';
-    emailMessage.innerHTML = '';
-    telephoneMessage.innerHTML = '';
-    passwordMessage.style.color = 'red';
-    emailMessage.style.color = 'red';
-    telephoneMessage.style.color = 'red';
-    submitButton.disabled = true;
-
-    if (!email.includes('@')) {
-        emailMessage.innerHTML = 'Invalid email';
-        return;
-    }
-    if (!/^\d{3}-\d{3}-\d{4}$/.test(telephone)) {
-        telephoneMessage.innerHTML = 'Telephone must be written as XXX-XXX-XXXX';
-        return;
-    }
-    if (passwordInitial !== passwordConfirm) {
-        passwordMessage.innerHTML = 'Passwords do not match';
-        return;
-    }
-    if (passwordInitial.length < 8) {
-        passwordMessage.innerHTML = 'Password must be at least 8 characters long!';
-        return;
-    }
-    if (!/[A-Z]/.test(passwordInitial)) {
-        passwordMessage.innerHTML = 'Password must contain at least one uppercase letter!';
-        return;
-    }
-    if (!/\d/.test(passwordInitial)) {
-        passwordMessage.innerHTML = 'Password must contain at least one integer!';
-        return;
-    }
-    passwordMessage.style.color = 'green';
-    passwordMessage.innerHTML = 'All input fields are valid!';
-    submitButton.disabled = false;
-}
-</script>
-</head>
-<body>
 <style>
 body {
     font-family: Arial, Helvetica, sans-serif;
@@ -84,9 +32,17 @@ label {
     padding-left: 225px;
 }
 
-.fname, .lname {
+.fname {
     display: inline-flex;
     margin-bottom: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.lname {
+    display: inline-flex;
+    margin-bottom: 5px;
+    margin-left: -150px;
     justify-content: center;
     align-items: center;
 }
@@ -128,6 +84,12 @@ button:hover {
     margin-left: 225px;
     padding: 20px;
     width: 50%;
+    background-color: lightgrey; 
+    cursor: not-allowed; 
+}
+
+.createAcctbtn:disabled {
+    opacity: 0.5; 
 }
 
 .bg-img {
@@ -159,6 +121,60 @@ button:hover {
     }
 }
 </style>
+<script>
+function validateForm() {
+    var firstName = document.getElementsByName("firstName")[0].value;
+    var lastName = document.getElementsByName("lastName")[0].value;
+    var telephone = document.getElementsByName("telephone")[0].value;
+    var email = document.getElementsByName("email")[0].value;
+    var passwordInitial = document.getElementsByName("password")[0].value;
+    var passwordConfirm = document.getElementsByName("passwordConfirm")[0].value;
+    var submitButton = document.querySelector(".createAcctbtn");
+    var passwordMessage = document.getElementById("passwordMessage");
+    var emailMessage = document.getElementById("emailMessage");
+    var telephoneMessage = document.getElementById("telephoneMessage");
+
+    passwordMessage.innerHTML = '';
+    emailMessage.innerHTML = '';
+    telephoneMessage.innerHTML = '';
+    passwordMessage.style.color = 'red';
+    emailMessage.style.color = 'red';
+    telephoneMessage.style.color = 'red';
+    submitButton.disabled = true;
+
+    if (!email.includes('@') && email.trim() !== '') {
+        emailMessage.innerHTML = 'Invalid email';
+        return;
+    }
+    if (!/^\d{3}-\d{3}-\d{4}$/.test(telephone) && telephone.trim() !== '') {
+        telephoneMessage.innerHTML = 'Telephone must be written as XXX-XXX-XXXX';
+        return;
+    }
+    if (passwordInitial !== passwordConfirm && passwordInitial.trim() !== '' && passwordConfirm.trim() !== '') {
+        passwordMessage.innerHTML = 'Passwords do not match';
+        return;
+    }
+    if (passwordInitial.length < 8 && passwordInitial.trim() !== '') {
+        passwordMessage.innerHTML = 'Password must be at least 8 characters long!';
+        return;
+    }
+    if (!/[A-Z]/.test(passwordInitial) && passwordInitial.trim() !== '') {
+        passwordMessage.innerHTML = 'Password must contain at least one uppercase letter!';
+        return;
+    }
+    if (!/\d/.test(passwordInitial) && passwordInitial.trim() !== '') {
+        passwordMessage.innerHTML = 'Password must contain at least one integer!';
+        return;
+    }
+    if (firstName.trim() !== '' && lastName.trim() !== '' && telephone.trim() !== '' && email.trim() !== '' && passwordInitial.trim() !== '' && passwordConfirm.trim() !== '' && passwordMessage.innerHTML === '' && emailMessage.innerHTML === '' && telephoneMessage.innerHTML === '') {
+        passwordMessage.innerHTML = '';
+        submitButton.disabled = false;
+        submitButton.style.backgroundColor = '#1CADFB';
+    }
+}
+</script>
+</head>
+<body>
 <div class="bg-img"></div>
 <form action="signup" method="POST">
     <div class="container">
@@ -174,15 +190,15 @@ button:hover {
         </div>
         <br> <label for="telephone"><b>Telephone</b></label><br>
         <input type="tel" placeholder="Enter Telephone" name="telephone" required onkeyup="validateForm()" onchange="validateForm()"><br>
-        <div id="telephoneMessage"></div>
+        <div id="telephoneMessage" style="padding-left: 225px;"></div>
         <label for="email"><b>Email</b></label><br>
         <input type="email" placeholder="Enter Email" name="email" required onkeyup="validateForm()" onchange="validateForm()"><br>
-        <div id="emailMessage"></div>
+        <div id="emailMessage" style="padding-left: 225px;"></div>
         <label for="password"><b>Password</b></label><br>
         <input type="password" placeholder="Enter Password" name="password" required onkeyup="validateForm()" onchange="validateForm()"><br>
         <label for="passwordConfirm"><b>Confirm Password</b></label><br>
         <input type="password" placeholder="Confirm Password" name="passwordConfirm" required onkeyup="validateForm()" onchange="validateForm()"><br>
-        <div id="passwordMessage"></div>
+        <div id="passwordMessage" style="padding-left: 225px;"></div>
         <div class="clearfix">
             <button type="submit" class="createAcctbtn" disabled>Create Account</button>
         </div>
@@ -193,4 +209,3 @@ button:hover {
 </form>
 </body>
 </html>
-
