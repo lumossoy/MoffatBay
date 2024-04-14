@@ -32,17 +32,9 @@ label {
     padding-left: 225px;
 }
 
-.fname {
+.fname, .lname {
     display: inline-flex;
     margin-bottom: 5px;
-    justify-content: center;
-    align-items: center;
-}
-
-.lname {
-    display: inline-flex;
-    margin-bottom: 5px;
-    margin-left: -150px;
     justify-content: center;
     align-items: center;
 }
@@ -58,6 +50,11 @@ input[type=text], input[type=tel], input[type=email], input[type=password] {
     display: inline-block;
     border: none;
     background: #f1f1f1;
+}
+
+.lname input[type=text] {
+    margin-left: 60px;
+    width: 70%
 }
 
 input[type=text]:focus, input[type=password]:focus {
@@ -202,6 +199,14 @@ function validateForm() {
         <div class="clearfix">
             <button type="submit" class="createAcctbtn" disabled>Create Account</button>
         </div>
+        <%
+            String message = (String) request.getAttribute("message");
+            if (message != null && !message.isEmpty()) {
+        %>
+            <div style="color: red; text-align: center;"><%= message %></div>
+        <%
+            }
+        %>
         <p>
             Already have an account? <a href="login.jsp">Login! </a>
         </p>
