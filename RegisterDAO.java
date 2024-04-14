@@ -35,7 +35,7 @@ public class RegisterDAO {
 	        ResultSet resultSet = checkStatement.executeQuery();
 
 	        if (resultSet.next()) {
-	            return "Email already exists!";
+	            return "An account already exists with this e-mail!";
 	        }
 
 	        // Add new user if new e-mail
