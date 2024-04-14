@@ -14,37 +14,49 @@ function validateForm() {
     var passwordInitial = document.getElementsByName("password")[0].value;
     var passwordConfirm = document.getElementsByName("passwordConfirm")[0].value;
     var submitButton = document.querySelector(".createAcctbtn");
-    var message = document.getElementById("passwordMessage");
+    var passwordMessage = document.getElementById("passwordMessage");
+    var emailMessage = document.getElementById("emailMessage");
+    var telephoneMessage = document.getElementById("telephoneMessage");
 
-    // Initial setup
-    message.innerHTML = '';
-    message.style.color = 'red';
+    // Initial settings
+    passwordMessage.innerHTML = '';
+    emailMessage.innerHTML = '';
+    telephoneMessage.innerHTML = '';
+    passwordMessage.style.color = 'red';
+    emailMessage.style.color = 'red';
+    telephoneMessage.style.color = 'red';
     submitButton.disabled = true;
-    if (firstName && lastName && telephone && email && passwordInitial && passwordConfirm) {
-        // Check password match
-    	if (passwordInitial !== passwordConfirm) {
-            message.innerHTML = 'Passwords do not match';
-            return;
-        }
-        // Check min length
-        if (passwordInitial.length < 8) {
-            message.innerHTML = 'Password must be at least 8 characters long!';
-            return;
-        }
-        // Check at least one uppercase letter
-        if (!/[A-Z]/.test(passwordInitial)) {
-            message.innerHTML = 'Password must contain at least one uppercase letter!';
-            return;
-        }
-        // Check at least one digit
-        if (!/\d/.test(passwordInitial)) {
-            message.innerHTML = 'Password must contain at least one integer!';
-            return;
-        }
-        // Everything good
-        message.style.color = 'green';
-        message.innerHTML = 'All input fields are valid!';
-        submitButton.disabled = false;
+
+    // Validate inputs
+    if (!email.includes('@')) {
+        emailMessage.innerHTML = 'Invalid email';
+        return;
+    }
+    if (!/^\d{3}-\d{3}-\d{4}$/.test(telephone)) {
+        telephoneMessage.innerHTML = 'Telephone must be written as XXX-XXX-XXXX';
+        return;
+    }
+    if (passwordInitial !== passwordConfirm) {
+        passwordMessage.innerHTML = 'Passwords do not match';
+        return;
+    }
+    if (passwordInitial.length < 8) {
+        passwordMessage.innerHTML = 'Password must be at least 8 characters long!';
+        return;
+    }
+    if (!/[A-Z]/.test(passwordInitial)) {
+        passwordMessage.innerHTML = 'Password must contain at least one uppercase letter!';
+        return;
+    }
+    if (!/\d/.test(passwordInitial)) {
+        passwordMessage.innerHTML = 'Password must contain at least one integer!';
+        return;
+    }
+
+    // Conditions valid
+    passwordMessage.style.color = 'green';
+    passwordMessage.innerHTML = 'All input fields are valid!';
+    submitButton.disabled = false;
 }
 </script>
 </head>
@@ -133,7 +145,7 @@ button:hover {
 
 .container {
     width: 50%;
-    position: absolute;
+    position:absolute;
     left: 30px;
     height: 100%;
     padding-left: 25px;
@@ -157,27 +169,24 @@ button:hover {
         <h1>Moffat Bay Lodge</h1>
         <p>Welcome GUEST</p>
         <p style="padding-bottom: 15px;">Please complete the sign up form.</p>
-        <label for="fname"><b>First Name</b></label><label for="lname"
-            class="lnameLabel"><b>Last Name</b></label><br>
+        <label for="fname"><b>First Name</b></label><label for="lname" class="lnameLabel"><b>Last Name</b></label><br>
         <div class="fname">
-            <input type="text" placeholder="Enter First Name" name="firstName"
-                required onkeyup="validateForm()" onchange="validateForm()">
+            <input type="text" placeholder="Enter First Name" name="firstName" required onkeyup="validateForm()" onchange="validateForm()">
         </div>
         <div class="lname">
-            <input type="text" placeholder="Enter Last Name" name="lastName"
-                required onkeyup="validateForm()" onchange="validateForm()"><br>
+            <input type="text" placeholder="Enter Last Name" name="lastName" required onkeyup="validateForm()" onchange="validateForm()"><br>
         </div>
-        <br> <label for="telephone"><b>Telephone</b></label><br> <input
-            type="tel" placeholder="Enter Telephone" name="telephone" required onkeyup="validateForm()" onchange="validateForm()"><br>
-
-        <label for="email"><b>Email</b></label><br> <input type="email"
-            placeholder="Enter Email" name="email" required onkeyup="validateForm()" onchange="validateForm()"><br> <label
-            for="password"><b>Password</b></label><br> <input
-            type="password" placeholder="Enter Password" name="password"
-            required onkeyup="validateForm()" onchange="validateForm()"><br> <label for="passwordConfirm"><b>Confirm
-                Password</b></label><br> <input type="password"
-            placeholder="Confirm Password" name="passwordConfirm" required onkeyup="validateForm()" onchange="validateForm()"><br>
-        <div id="passwordMessage"></div>
+        <br> <label for="telephone"><b>Telephone</b></label><br>
+        <input type="tel" placeholder="Enter Telephone" name="telephone" required onkeyup="validateForm()" onchange="validateForm()"><br>
+        <div id="telephoneMessage"></div> 
+        <label for="email"><b>Email</b></label><br>
+        <input type="email" placeholder="Enter Email" name="email" required onkeyup="validateForm()" onchange="validateForm()"><br>
+        <div id="emailMessage"></div> 
+        <label for="password"><b>Password</b></label><br>
+        <input type="password" placeholder="Enter Password" name="password" required onkeyup="validateForm()" onchange="validateForm()"><br>
+        <label for="passwordConfirm"><b>Confirm Password</b></label><br>
+        <input type="password" placeholder="Confirm Password" name="passwordConfirm" required onkeyup="validateForm()" onchange="validateForm()"><br>
+        <div id="passwordMessage"></div> 
         <div class="clearfix">
             <button type="submit" class="createAcctbtn" disabled>Create Account</button>
         </div>
@@ -188,4 +197,3 @@ button:hover {
 </form>
 </body>
 </html>
-
