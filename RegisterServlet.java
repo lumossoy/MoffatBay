@@ -41,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
 
             RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
             dispatcher.forward(request, response);
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().println("Database connection problem.");
         }
