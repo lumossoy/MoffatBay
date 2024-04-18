@@ -2,6 +2,7 @@ package myBean;
 
 import java.util.Date;
 import java.util.List;
+import java.math.BigDecimal;
 
 public class Reservation {
     // Attributes
@@ -10,11 +11,11 @@ public class Reservation {
     private Date checkInDate;
     private Date checkOutDate;
     private String roomType;
-    private double roomPrice;
+    private BigDecimal roomPrice;
     private int totalGuests;
     private List<String> amenities;
     private List<String> attractions;
-    private double totalCost;
+    private BigDecimal totalCost;
     private String confirmationNumber;
 
     // No-arg constructor
@@ -24,8 +25,8 @@ public class Reservation {
 
     // Args constructor
     public Reservation(String username, String email, Date checkInDate, Date checkOutDate, String roomType,
-                       double roomPrice, int totalGuests, List<String> amenities, List<String> attractions,
-                       double totalCost, String confirmationNumber) {
+    		           BigDecimal roomPrice, int totalGuests, List<String> amenities, List<String> attractions,
+    		           BigDecimal totalCost, String confirmationNumber) {
         this.username = username;
         this.email = email;
         this.checkInDate = checkInDate;
@@ -80,11 +81,11 @@ public class Reservation {
         this.roomType = roomType;
     }
 
-    public double getRoomPrice() {
+    public BigDecimal getRoomPrice() {
         return roomPrice;
     }
 
-    public void setRoomPrice(double roomPrice) {
+    public void setRoomPrice(BigDecimal roomPrice) {
         this.roomPrice = roomPrice;
     }
 
@@ -112,11 +113,11 @@ public class Reservation {
         this.attractions = attractions;
     }
 
-    public double getTotalCost() {
+    public BigDecimal getTotalCost() {
         return totalCost;
     }
 
-    public void setTotalCost(double totalCost) {
+    public void setTotalCost(BigDecimal totalCost) {
         this.totalCost = totalCost;
     }
 
