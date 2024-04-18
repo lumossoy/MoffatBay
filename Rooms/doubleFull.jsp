@@ -6,7 +6,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Double Full Beds</title>
-    <link rel="stylesheet" href="doubleFull.css">
+    <style>
+    body {
+    font-family: "Bree Serif", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navigation header {
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 59px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+h1 {
+    color: #1CADFB;
+    font-family: "Berkshire Swash", cursive;
+    font-size: 30px;
+    line-height: 39px;
+    margin: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    color: #47525E;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.login-button {
+    background-color: #1CADFB;
+    color: white;
+    font-family: "Lato", sans-serif;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 118px;
+    height: 30px;
+}
+
+.container h2 {
+    color: #47525E;
+    font-family: "Bree Serif", sans-serif;
+    font-size: 30px;
+    text-align: center;
+}
+
+.content {
+    padding: 20px;
+    text-align: center;
+}
+
+.content .top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content .top img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: .3s;
+    width: 75%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.card-title {
+    text-align: center;
+    font-size: 2em;
+    color: #0BAAFF;
+    font-weight: 400;
+    background-color: #C8CDD2;
+}
+
+.card-content {
+    padding: 2px 16px;
+    text-align: left;
+    color: #0BAAFF;
+    background-color: #C8CDD2;
+    }
+    </style>
 </head>
 <body>
     <div class="navigation">
@@ -18,7 +123,6 @@
                     <li><a href="rooms.jsp">Rooms</a></li>
                     <li><a href="#reservations">Reservations</a></li>
                     <li><a href="aboutUs.jsp">About Us</a></li>
-                    <li><a href="#contact">Contact Us</a></li>
                     <li><button class="login-button"><a href="login.jsp">Login</a></button></li>
                 </ul>
             </nav>
@@ -39,7 +143,7 @@
     </div>
     <div class="content">
         <div class="top">
-            <img src="roomsDoubleFull.png" alt="Double Full Bed">
+            <img src="images/roomsDoubleFull.png" alt="Double Full Bed">
             <p>Double Full Bed</p>
             <p>Two Full Sized Beds</p>
         </div>
