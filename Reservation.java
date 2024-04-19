@@ -6,15 +6,12 @@ import java.math.BigDecimal;
 
 public class Reservation {
     // Attributes
-    private String username;
-    private String email;
+    private int userID;
     private Date checkInDate;
     private Date checkOutDate;
     private String roomType;
     private BigDecimal roomPrice;
     private int totalGuests;
-    private List<String> amenities;
-    private List<String> attractions;
     private BigDecimal totalCost;
     private String confirmationNumber;
 
@@ -24,37 +21,25 @@ public class Reservation {
     }
 
     // Args constructor
-    public Reservation(String username, String email, Date checkInDate, Date checkOutDate, String roomType,
-    		           BigDecimal roomPrice, int totalGuests, List<String> amenities, List<String> attractions,
-    		           BigDecimal totalCost, String confirmationNumber) {
-        this.username = username;
-        this.email = email;
+    public Reservation(int userID, Date checkInDate, Date checkOutDate, String roomType,
+    		           BigDecimal roomPrice, int totalGuests, BigDecimal totalCost, String confirmationNumber) {
+        this.userID = userID;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.roomType = roomType;
         this.roomPrice = roomPrice;
         this.totalGuests = totalGuests;
-        this.amenities = amenities;
-        this.attractions = attractions;
         this.totalCost = totalCost;
         this.confirmationNumber = confirmationNumber;
     }
 
     // Getters and setters
-    public String getUsername() {
-        return username;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public Date getCheckInDate() {
@@ -95,22 +80,6 @@ public class Reservation {
 
     public void setTotalGuests(int totalGuests) {
         this.totalGuests = totalGuests;
-    }
-
-    public List<String> getAmenities() {
-        return amenities;
-    }
-
-    public void setAmenities(List<String> amenities) {
-        this.amenities = amenities;
-    }
-
-    public List<String> getAttractions() {
-        return attractions;
-    }
-
-    public void setAttractions(List<String> attractions) {
-        this.attractions = attractions;
     }
 
     public BigDecimal getTotalCost() {
