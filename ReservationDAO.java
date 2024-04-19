@@ -47,7 +47,7 @@ public class ReservationDAO {
 
                     try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
-                            reservationID = generatedKeys.getInt(1);  // Successfully retrieved generated key
+                            reservationID = generatedKeys.getInt(1);
                         }
                     }
                 }
@@ -112,24 +112,39 @@ public class ReservationDAO {
     }*/
 
     // generate unique confirmation code
-    private String confirmationGenerator() throws SQLException {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#";
-        StringBuilder result;
+    private String confirmationGenerator() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder confirmationCode;
         Random random = new Random();
+        String sql = "SELECT count(*) FROM reservations WHERE confirmationNumber = ?";
+        int attempts = 0;
 
-        do {
-            result = new StringBuilder();
-            for (int i = 0; i < 12; i++) {
-                result.append(characters.charAt(random.nextInt(characters.length())));
-            }
-            // Check if this number already exists in the database
-            String sql = "SELECT count(*) FROM reservations WHERE confirmationNumber = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, result.toString());
-            resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-        } while (resultSet.getInt(1) > 0);
+        try {
+            do {
+                if (++attempts > 100) { // Limit attempts to avoid potential infinite loop
+                    throw new RuntimeException("Failed to generate a unique confirmation code after multiple attempts.");
+                }
 
-        return result.toString();
+                confirmationCode = new StringBuilder();
+                for (int i = 0; i < 12; i++) {
+                    confirmationCode.append(characters.charAt(random.nextInt(characters.length())));
+                }
+
+                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    preparedStatement.setString(1, confirmationCode.toString());
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        resultSet.next();
+                        if (resultSet.getInt(1) == 0) {
+                            // confirmation code generated
+                        	break;
+                        }
+                    }
+                }
+            } while (true);
+
+            return confirmationCode.toString();
+        } catch (SQLException e) {
+            throw new RuntimeException("Database error during confirmation code generation", e);
+        }
     }
 }
