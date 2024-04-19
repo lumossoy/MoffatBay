@@ -55,7 +55,7 @@ public class ReservationServlet extends HttpServlet {
             request.setAttribute("confirmationNumber", confirmationNumber);
             request.setAttribute("totalCost", totalCost.toPlainString());
         } catch (SQLException | ClassNotFoundException ex) {
-            request.setAttribute("confirmationNumber", "Error creating reservation: " + ex.getMessage());
+            request.setAttribute("confirmationNumber", "Error creating reservation: " + ex.getMessage() + userID);
             request.setAttribute("totalCost", "N/A");
         }
 
