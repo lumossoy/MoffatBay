@@ -9,10 +9,10 @@ import java.util.List;
 
 public class ReservationDAO {
     // Database properties
-    private Connection connection = null;
-    private PreparedStatement preparedStatement = null;
-    private ResultSet resultSet = null;
-
+	java.sql.Connection connection = null;
+	java.sql.Statement preparedStatement = null;
+    java.sql.ResultSet resultSet = null;
+    
     // No-arg constructor
     public ReservationDAO() {
         
@@ -23,128 +23,96 @@ public class ReservationDAO {
         String jdbcURL = "jdbc:mysql://localhost:3306/MoffatBayTest";
         String dbUser = "root";
         String dbPassword = "theAlphaBlack23@";
-        String confirmationNumber = "";
+        String confirmationNum = "";
         int reservationID = -1;
         String resultMessage = "";
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         try (Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword)) {
-            connection.setAutoCommit(false);  // Start transaction control
+            connection.setAutoCommit(false);  // Disable auto-commit to manually control the transaction
 
-            try {
-                // Generate unique confirmation number
-                confirmationNumber = confirmationGenerator();
-                newReservation.setConfirmationNumber(confirmationNumber);
+            // Generate unique confirmation number
+            confirmationNum = confirmationGenerator(); 
+            newReservation.setConfirmationNumber(confirmationNum);
 
-                // Insert into Reservation Table
-                String sql = "INSERT INTO reservations (CheckInDate, CheckOutDate, TotalGuests, ConfirmationNum) VALUES (?, ?, ?, ?)";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                    preparedStatement.setDate(1, new java.sql.Date(newReservation.getCheckInDate().getTime()));
-                    preparedStatement.setDate(2, new java.sql.Date(newReservation.getCheckOutDate().getTime()));
-                    preparedStatement.setInt(3, newReservation.getTotalGuests());
-                    preparedStatement.setString(4, confirmationNumber);
-                    preparedStatement.executeUpdate();
+            // Insert into Reservation Table
+            String sql = "INSERT INTO reservations (CheckInDate, CheckOutDate, TotalGuests, ConfirmationNum) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                preparedStatement.setDate(1, new java.sql.Date(newReservation.getCheckInDate().getTime()));
+                preparedStatement.setDate(2, new java.sql.Date(newReservation.getCheckOutDate().getTime()));
+                preparedStatement.setInt(3, newReservation.getTotalGuests());
+                preparedStatement.setString(4, confirmationNum);
+                preparedStatement.executeUpdate();
 
-                    try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                        if (generatedKeys.next()) {
-                            reservationID = generatedKeys.getInt(1);
-                        }
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        reservationID = generatedKeys.getInt(1);
                     }
                 }
-
-                if (reservationID != -1) {
-                    // Insert into User_Reservations Table
-                    sql = "INSERT INTO user_reservations (userID, ReservationID) VALUES (?, ?)";
-                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                        preparedStatement.setInt(1, newReservation.getUserID());
-                        preparedStatement.setInt(2, reservationID);
-                        preparedStatement.executeUpdate();
-                    }
-                }
-
-                connection.commit();
-                resultMessage = "Reservation successfully created with Confirmation Number: " + confirmationNumber;
-            } catch (SQLException e) {
-                connection.rollback(); 
-                e.printStackTrace();
-                resultMessage = "Unable to create reservation: " + e.getMessage();
             }
-        } 
+
+            /*if (reservationID != -1) {
+                // Insert into User_Reservations Table
+                sql = "INSERT INTO user_reservations (userID, ReservationID) VALUES (?, ?)";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    preparedStatement.setInt(1, newReservation.getUserID());
+                    preparedStatement.setInt(2, reservationID);
+                    preparedStatement.executeUpdate();
+                }
+            }*/
+
+            connection.commit();
+            resultMessage = "Reservation successfully created with Confirmation Number: " + confirmationNum;
+        } catch (SQLException e) {
+            if (connection != null) {
+                connection.rollback(); // Rollback the transaction on error
+            }
+            e.printStackTrace();
+            resultMessage = "Unable to create reservation: " + e.getMessage() + newReservation.getUserID();
+        } finally {
+            if (connection != null) {
+                connection.setAutoCommit(true);  // Restore auto-commit before closing
+                connection.close();  // Ensure the connection is closed
+            }
+        }
+
         return resultMessage;
     }
 
-    
-    /* Method to pull reservation from the database
-    public Reservation pullReservation(String confirmationNumber) throws SQLException, ClassNotFoundException {
-        Reservation reservation = null;
-        String jdbcURL = "jdbc:mysql://localhost:3306/hotelDB";
+ 
+   // generate unique confirmation code
+    private String confirmationGenerator() throws SQLException, ClassNotFoundException {
+        String jdbcURL = "jdbc:mysql://localhost:3306/MoffatBayTest";
         String dbUser = "root";
-        String dbPassword = "password";
-
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
-
-        try {
-            String sql = "SELECT * FROM reservations WHERE confirmationNumber = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, confirmationNumber);
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                reservation = new Reservation(
-                    resultSet.getInt("userID"),
-                    resultSet.getDate("checkInDate"),
-                    resultSet.getDate("checkOutDate"),
-                    resultSet.getString("roomType"),
-                    resultSet.getBigDecimal("roomPrice"),
-                    resultSet.getInt("totalGuests"),
-                    resultSet.getBigDecimal("totalCost"),
-                    resultSet.getString("confirmationNumber")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) connection.close();
-            if (preparedStatement != null) preparedStatement.close();
-        }
-        return reservation;
-    }*/
-
-    // generate unique confirmation code
-    private String confirmationGenerator() {
+        String dbPassword = "theAlphaBlack23@";
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder confirmationCode;
         Random random = new Random();
-        String sql = "SELECT count(*) FROM reservations WHERE confirmationNumber = ?";
-        int attempts = 0;
+        String sql = "SELECT count(*) FROM reservations WHERE confirmationNum = ?";
 
-        try {
-            do {
-                if (++attempts > 100) { // Limit attempts to avoid potential infinite loop
-                    throw new RuntimeException("Failed to generate a unique confirmation code after multiple attempts.");
-                }
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        try (Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
+            while (true) {
                 confirmationCode = new StringBuilder();
                 for (int i = 0; i < 12; i++) {
                     confirmationCode.append(characters.charAt(random.nextInt(characters.length())));
                 }
 
-                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                    preparedStatement.setString(1, confirmationCode.toString());
-                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                        resultSet.next();
-                        if (resultSet.getInt(1) == 0) {
-                            // confirmation code generated
-                        	break;
-                        }
+                preparedStatement.setString(1, confirmationCode.toString());
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    resultSet.next();
+                    if (resultSet.getInt(1) == 0) {
+                        break; 
                     }
                 }
-            } while (true);
+            }
 
             return confirmationCode.toString();
         } catch (SQLException e) {
-            throw new RuntimeException("Database error during confirmation code generation", e);
+            // Handle possible SQL exceptions here
+            throw new RuntimeException("SQL error occurred in confirmation generator", e);
         }
     }
 }
