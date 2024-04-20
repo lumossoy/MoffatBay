@@ -5,7 +5,7 @@
 -- Database creation
 DROP DATABASE IF EXISTS MoffatBayTest;
 CREATE DATABASE MoffatBayTest;
-USE MoffatBay;
+USE MoffatBayTest;
 
 -- Users Table
 CREATE TABLE IF NOT EXISTS Users (
