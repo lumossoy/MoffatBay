@@ -3,8 +3,8 @@
 -- This SQL creates our Database and Initial Entries
 
 -- Database creation
-DROP DATABASE IF EXISTS MoffatBay;
-CREATE DATABASE MoffatBay;
+DROP DATABASE IF EXISTS MoffatBayTest;
+CREATE DATABASE MoffatBayTest;
 USE MoffatBay;
 
 -- Users Table
