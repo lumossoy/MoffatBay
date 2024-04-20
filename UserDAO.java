@@ -19,7 +19,7 @@ public class UserDAO {
 		String dbUser = "root";
 		String dbPassword = "theAlphaBlack23@";
 
-		Class.forName("com.mysql.jdbc.Driver");
+		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
 		//sql query to locate users bases on email and password
 		String sql = "SELECT * FROM users WHERE email = ? and password = ?";
@@ -34,8 +34,9 @@ public class UserDAO {
 		//assigns the user object information to the database info
 		if (result.next()) {
 		    user = new User();
+		    user.setUserID((int) result.getLong("UserID"));
 		    user.setFirstName(result.getString("firstName"));
-		    user.setEmail(email);
+		    user.setEmail(result.getString("email"));
 		}
 		
 		connection.close();
