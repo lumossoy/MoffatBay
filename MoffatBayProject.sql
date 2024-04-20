@@ -84,15 +84,15 @@ INSERT INTO Rooms (ReservationID, RoomType, RoomPrice) VALUES
 (1, 'double queen', 157.50),
 (2, 'double full', 120.75),
 (3, 'king', 120.75),
-(2, 'queen', 120.75),
-(2, 'king', 157.50);
+(4, 'queen', 120.75),
+(5, 'king', 157.50);
 
 -- Add Initial Amenities
 INSERT INTO Amenities (RoomID, AmenityName) VALUES
 (1, 'High Speed WiFi'),    
 (2, 'Birthday Pckg'),
 (3, 'Anniversary Pckg'),    
-(3, 'Hiking Pckg');
+(4, 'Hiking Pckg');
 
 -- Add Initial Attractions 
 INSERT INTO Attractions (ReservationID, Activity) VALUES
