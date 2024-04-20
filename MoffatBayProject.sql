@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS User_Reservations (
 INSERT INTO Users (Email, Password, FirstName, LastName, TelephoneNumber) VALUES
 ('johnrega21@hotmail.com', '123Password!', 'John', 'Rega', '706-894-2332'),
 ('alexharper@gmail.com', 'NatureRocks!', 'Alex', 'Harper', '654-489-7123'),
-('steph27@ymail.com', 'CorporateBaddie1', 'Stephanie', 'Culler', '249-987-6789');
+('steph27@ymail.com', 'CorporateBaddie1', 'Stephanie', 'Culler', '249-987-6789'),
 ('dbz@yahoo.com', 'Appleblack23', 'Launch', 'Shinhan', '249-867-4852');
 
 -- Add Initial Reservations
