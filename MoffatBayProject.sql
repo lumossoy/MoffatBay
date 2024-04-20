@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Reservations (
     CheckInDate DATE NOT NULL,
     CheckOutDate DATE NOT NULL,
     TotalGuests INT NOT NULL,
-    TotalPrice DECIMAL(8, 2) NOT NULL,
+    TotalPrice DOUBLE NOT NULL,
     ConfirmationNum INT NOT NULL,
     PRIMARY KEY (ReservationID)
 ) ENGINE=InnoDB;
