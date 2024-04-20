@@ -84,8 +84,8 @@ INSERT INTO Rooms (ReservationID, RoomType, RoomPrice) VALUES
 (1, 'double queen', 157.50),
 (2, 'double full', 120.75),
 (3, 'king', 120.75),
-(4, 'queen', 120.75),
-(5, 'king', 157.50);
+(3, 'queen', 120.75),
+(2, 'king', 157.50);
 
 -- Add Initial Amenities
 INSERT INTO Amenities (RoomID, AmenityName) VALUES
