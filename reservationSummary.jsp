@@ -65,11 +65,11 @@
 <div class="centered">
     <h2>Reservation Summary</h2>
     <p>Name: ${reservationName}</p>
-    <p>Check-In Date: ${existingReservation.getcheckInDate()}</p>
-    <p>Check-Out Date: ${existingReservation.getcheckOutDate()}</p>
-    <p>Room: ${existingReservation.getroomType()}</p>
-    <p>Total Guests: ${existingReservation.gettotalGuests()}</p>
-    <p>Total Price: ${existingReservation.gettotalCost()}</p>
+    <p>Check-In Date: ${Reservation.getCheckInDate()}</p>
+    <p>Check-Out Date: ${Reservation.getCheckOutDate()}</p>
+    <p>Room: ${Reservation.getRoomType()}</p>
+    <p>Total Guests: ${Reservation.getTotalGuests()}</p>
+    <p>Total Price: ${Reservation.getTotalCost()}</p>
 </div>
 </body>
 </html>
