@@ -58,19 +58,14 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
-.login-button {
-    background-color: #1CADFB;
-    color: white;
-    font-family: "Lato", sans-serif;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    width: 118px;
-    height: 30px;
-}
+button {
+            background-color: #1CADFB;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            text-decoration: none; 
+        }
 
 .container {
     width: 80%;
@@ -123,7 +118,7 @@ h3 {
                     <li><a href="rooms.jsp">Rooms</a></li>
                     <li><a href="reservation.jsp">Reservations</a></li>
                     <li><a href="aboutUs.jsp">About Us</a></li>
-                    <li><button class="login-button"><a href="login.jsp">Login</a></button></li>
+                    <li><a href="login.jsp"><button type="submit">Login</button></a></li>
                 </ul>
             </nav>
         </header>
