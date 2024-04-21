@@ -146,7 +146,7 @@
                 <li><a href="#attractions">Attractions</a></li>
                 <li><a href="rooms.jsp">Rooms</a></li>
                 <li><a href="#reservations">Reservations</a></li>
-                <li><a href="about.jsp">About Us</a></li>
+                <li><a href="aboutUs.jsp">About Us</a></li>
                 <li><a href="login.jsp"><button type="submit">Login</button></a></li>
             </ul>
         </nav>
