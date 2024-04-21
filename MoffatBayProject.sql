@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS Reservations (
     CheckInDate DATE NOT NULL,
     CheckOutDate DATE NOT NULL,
     TotalGuests INT NOT NULL,
-    TotalPrice DOUBLE NOT NULL,
-    ConfirmationNum INT NOT NULL,
+    TotalPrice DECIMAL(8,2) NOT NULL,
+    ConfirmationNum VARCHAR(12) NOT NULL,
     PRIMARY KEY (ReservationID)
 ) ENGINE=InnoDB;
 
@@ -75,9 +75,9 @@ INSERT INTO Users (Email, Password, FirstName, LastName, TelephoneNumber) VALUES
 
 -- Add Initial Reservations
 INSERT INTO Reservations (CheckInDate, CheckOutDate, TotalGuests, TotalPrice, ConfirmationNum) VALUES
-('2024-04-01', '2024-04-07', 4, 945, 105764),
+('2024-04-01', '2024-04-07', 4, 945.00, 105764),
 ('2024-07-18', '2024-07-25', 1, 845.25, 105768),
-('2024-10-24', '2024-11-24', 2, 3622.5, 105769);
+('2024-10-24', '2024-11-24', 2, 3622.50, 105769);
 
 -- Add Initial Rooms
 INSERT INTO Rooms (ReservationID, RoomType, RoomPrice) VALUES
@@ -92,7 +92,7 @@ INSERT INTO Amenities (RoomID, AmenityName) VALUES
 (1, 'High Speed WiFi'),    
 (2, 'Birthday Pckg'),
 (3, 'Anniversary Pckg'),    
-(4, 'Hiking Pckg');
+(3, 'Hiking Pckg');
 
 -- Add Initial Attractions 
 INSERT INTO Attractions (ReservationID, Activity) VALUES
