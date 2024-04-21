@@ -1,11 +1,7 @@
 package myBean;
 
-import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
 import java.sql.*;
 import java.util.Random;
-import java.util.List;
 import java.math.BigDecimal;
 
 public class ReservationDAO {
@@ -88,6 +84,7 @@ public class ReservationDAO {
         return resultMessage;
     }
 
+    // Method to search for a reservation
     public Reservation searchReservation(String confirmationNum) throws SQLException, ClassNotFoundException {
         String jdbcURL = "jdbc:mysql://localhost:3306/MoffatBayTest";
         String dbUser = "root";
@@ -151,6 +148,36 @@ public class ReservationDAO {
             throw new RuntimeException("Unable to retrieve reservation: " + e.getMessage());
         }
     }
+    
+    // Method to return the full user name
+    public String searchUserName(int userID) throws SQLException, ClassNotFoundException {
+        String jdbcURL = "jdbc:mysql://localhost:3306/MoffatBayTest";
+        String dbUser = "root";
+        String dbPassword = "theAlphaBlack23@";
+        String fullName = null;
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        try (Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword)) {
+            String sql = "SELECT FirstName, LastName FROM users WHERE UserID = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, userID);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String firstName = resultSet.getString("FirstName");
+                        String lastName = resultSet.getString("LastName");
+                        fullName = firstName + " " + lastName;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unable to retrieve user name: " + e.getMessage());
+        }
+        return fullName;
+    }
+
+    
     
    // function to simulate a unique confirmation code
     private String confirmationGenerator() throws SQLException, ClassNotFoundException {
