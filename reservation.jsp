@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%if (request.isRequestedSessionIdValid() != true){ 
-    	response.sendRedirect("landingPage.jsp");}%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,42 +26,11 @@
             minDate: '+1d' // Disallow dates before tomorrow
         });
     });
-    
-    function getPrice() {
-    	var price;
-    	let arrivalDate = new Date(document.getElementById("checkInDate").value);
-    	let departDate = new Date(document.getElementById("checkOutDate").value);
-    	
-    	let daysDiff = departDate.getTime() - arrivalDate.getTime();
-    	let Difference_In_Days = Math.round(daysDiff / (1000 * 3600 * 24));
-    	
-    	console.log("Total number of days between dates:\n" + arrivalDate + " and " +
-        		departDate + " is: " + Difference_In_Days + " days");
-    	
-    	let guest = document.getElementById("totalGuests").value;
-    	console.log(guest);
-    	if (guest >= 3) {
-    		console.log("this is a test for 3 or more");
-    		price = 157.50;
-    		price = price * Difference_In_Days;
-    		console.log(price);
-    		document.getElementById("totalPrice").innerHTML = "$" + price;
-    		document.getElementById("totalPrice").value = price;
-    	} else {
-    		price = 120.75;
-    		price = price * Difference_In_Days;
-    		console.log(price);
-    		document.getElementById("totalPrice").innerHTML = "$" + price;
-    		document.getElementById("totalPrice").value = price;
-    	}
-    	
-    }
 
     // Redirect if not signed in
     <% if (session.getAttribute("user") == null) { %>
         window.location.href = "login.jsp";  // Redirect to login page if user not signed in
     <% } %>
-    
 </script>
 <style>
     body {
@@ -127,14 +94,13 @@
             <ul class="nav">
                 <li><a href="index.jsp">Home</a></li>
                 <li><a href="rooms.jsp">Rooms</a></li>
-                <li><a href="reservation.jsp">Reservations</a></li>
                 <li><a href="about.jsp">About</a></li>
-				<li><a href="landingPage.jsp"><button type="submit">Logout</button></a></li>
+                <li><a href="login.jsp">Login</a></li>
             </ul>
         </nav>
     </div>
     <div class="centered">
-        <form action="reserve" method="post">
+        <form action="ReservationServlet" method="post">
             <h2>Book Your Stay</h2>
             <label for="checkInDate">Check-in:</label>
             <input type="text" id="checkInDate" name="checkInDate" class="datepicker" required><br>
@@ -148,24 +114,27 @@
                 <option value="king">King</option>
             </select><br>
             <label for="totalGuests">Number of Guests:</label>
-            <select id="totalGuests" name="totalGuests" onchange="getPrice()">
+            <select id="totalGuests" name="totalGuests">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
                 <option>4</option>
-                <option >5</option>
+                <option>5</option>
             </select><br>
-			<label for="totalPrice" >Price:</label>
-            <input id = "totalPrice" value="${totalPrice}" disabled><br><br>
-            <button type="submit">Book</button>
-        </form>
+            <button type="submit">Complete Reservation</button><br><br><br>
+            </form>
+            <form action = "reservationSummary.jsp" method = "POST">
+            	<label for="searchReservation">View existing reservation: </label>
+            	<input type="search" id = "searchReservation" name = "searchReservation">
+            	<input type="submit">
+            </form>      
         <!-- Add this section after your form -->
         <div>
-            <% if (request.getAttribute("confirmationNum") != null) { %>
-                <p>Confirmation Number: <%= request.getAttribute("confirmationNum") %></p>
+            <% if (request.getAttribute("confirmationNumber") != null) { %>
+                <p>Confirmation Number: <%= request.getAttribute("confirmationNumber") %></p>
             <% } %>
-            <% if (request.getAttribute("totalPrice") != null) { %>
-                <p>Total Cost: $<%= request.getAttribute("totalPrice") %></p>
+            <% if (request.getAttribute("totalCost") != null) { %>
+                <p>Total Cost: $<%= request.getAttribute("totalCost") %></p>
             <% } %>
         </div>
         
