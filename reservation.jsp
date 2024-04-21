@@ -10,20 +10,20 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $(function() {
-        // Initialize the check-in datepicker
+        // Initialize the datepickers
         $("#checkInDate").datepicker({
-            minDate: 0, // Disallow dates before today
+            minDate: 0,
             onSelect: function(selectedDate) {
-                // Set the minimum date for the check-out datepicker to be the day after the selected start date
                 var minDate = new Date(selectedDate);
                 minDate.setDate(minDate.getDate() + 1);
                 $("#checkOutDate").datepicker("option", "minDate", minDate);
             }
         });
+        $("#checkOutDate").datepicker({ minDate: '+1d' });
 
-        // Initialize the check-out datepicker
-        $("#checkOutDate").datepicker({
-            minDate: '+1d' // Disallow dates before tomorrow
+        // Toggle reservation search form
+        $("#searchToggle").click(function() {
+            $("#searchForm").toggle();
         });
     });
 
@@ -58,12 +58,13 @@
         display: inline-block;
         padding: 10px;
     }
-    .nav a {
+    .nav a, #searchToggle a {
         text-decoration: none;
         color: #47525E;
+        cursor: pointer;
     }
-    .nav a:hover {
-        color: black;
+    .nav a:hover, #searchToggle a:hover {
+        color: blue;
     }
     .centered {
         position: absolute;
@@ -73,8 +74,9 @@
         background: rgba(255, 255, 255, 0.8);
         padding: 20px;
         border-radius: 8px;
+        min-height: 450px;  // Set a minimum height to maintain form size
     }
-    input, select {
+    input, select, button {
         margin: 10px 0;
         padding: 10px;
         width: 200px;
@@ -83,7 +85,6 @@
         background-color: #1CADFB;
         color: white;
         border: none;
-        padding: 10px 20px;
         cursor: pointer;
     }
 </style>
@@ -91,12 +92,13 @@
 <body>
     <div id='nav'>
         <nav>
-            <ul class="nav">
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="rooms.jsp">Rooms</a></li>
-                <li><a href="about.jsp">About</a></li>
-                <li><a href="login.jsp">Login</a></li>
-            </ul>
+			<ul class="nav">
+				<li><a href="#attractions">Attractions</a></li>
+				<li><a href="rooms.jsp">Rooms</a></li>
+				<li><a href="reservation.jsp">Reservations</a></li>
+				<li><a href="aboutUs.jsp">About Us</a></li>
+				<li><a href="login.jsp"><button type="submit">Login</button></a></li>
+			</ul>
         </nav>
     </div>
     <div class="centered">
@@ -108,9 +110,9 @@
             <input type="text" id="checkOutDate" name="checkOutDate" class="datepicker" required><br>
             <label for="roomType">Room Type:</label>
             <select id="roomType" name="roomType">
-                <option value="doublefull">Double Full</option>
+                <option value="double full beds">Double Full</option>
                 <option value="queen">Queen</option>
-                <option value="doublequeen">Double Queen</option>
+                <option value="double queen">Double Queen</option>
                 <option value="king">King</option>
             </select><br>
             <label for="totalGuests">Number of Guests:</label>
@@ -121,18 +123,22 @@
                 <option>4</option>
                 <option>5</option>
             </select><br>
-            <button type="submit">Submit</button>
+            <button type="submit" name="action" value="createReservation">Complete Reservation</button><br><br>
         </form>
-        <!-- Add this section after your form -->
+        <div id="searchToggle">Already have a reservation? <a>Click Here</a></div>
+        <div id="searchForm" style="display:none;">
+            <form action="ReservationServlet" method="POST">
+                <label for="searchReservation">Confirmation Number: </label>
+                <input type="search" id="searchReservation" name="searchReservation"><br>
+                <button type="submit" name="action" value="searchReservation">Search Reservation</button>
+            </form>
+        </div>
+        <!-- Display messages if any -->
         <div>
-            <% if (request.getAttribute("confirmationNumber") != null) { %>
-                <p>Confirmation Number: <%= request.getAttribute("confirmationNumber") %></p>
-            <% } %>
-            <% if (request.getAttribute("totalCost") != null) { %>
-                <p>Total Cost: $<%= request.getAttribute("totalCost") %></p>
+            <% if (request.getAttribute("errorMessage") != null) { %>
+                <p><%= request.getAttribute("errorMessage") %></p>
             <% } %>
         </div>
-        
     </div>
 </body>
 </html>
