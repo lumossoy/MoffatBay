@@ -14,6 +14,12 @@
     padding: 0;
 }
 
+#logo {
+	float: left;
+	display: inline-block;
+	width: 5%;
+}
+
 header {
     background-color: #FFFFFF;
     width: 100%; /* Change to 100% for responsiveness */
@@ -110,12 +116,12 @@ h3 {
 <body>
     <div class="navigation">
         <header>
-            <h1>Moffat Bay Lodge</h1>
+            <h1><img src="images/SalishSalmon.png" alt="Moffat Bay Logo" id="logo" >Moffat Bay Lodge</h1>
             <nav>
                 <ul>
                     <li><a href="#attractions">Attractions</a></li>
                     <li><a href="rooms.jsp">Rooms</a></li>
-                    <li><a href="#reservations">Reservations</a></li>
+                    <li><a href="reservation.jsp">Reservations</a></li>
                     <li><a href="aboutUs.jsp">About Us</a></li>
                     <li><button class="login-button"><a href="login.jsp">Login</a></button></li>
                 </ul>
