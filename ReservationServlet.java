@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +24,8 @@ public class ReservationServlet extends HttpServlet {
             throws ServletException, IOException {
     	HttpSession session = request.getSession(false);
     	String action = request.getParameter("action");
+    	
+    	// Create reservation action
     	if ("createReservation".equals(action)) { 
     	    User currentUser = (User) session.getAttribute("user");
             int userID = currentUser.getUserID();
@@ -58,12 +59,15 @@ public class ReservationServlet extends HttpServlet {
                 request.setAttribute("totalCost", totalCost.toPlainString());
             
                 if (!confirmationNumber.contains("Unable to create reservation:")) {
-                    session.setAttribute("Reservation", newReservation);
-                    request.getRequestDispatcher("reservation.jsp").forward(request, response);
+                	Reservation existingReservation = reservationDAO.searchReservation(newReservation.getConfirmationNumber());
+                	session.setAttribute("Reservation", existingReservation);
+                    String UserFullName = reservationDAO.searchUserName(existingReservation.getUserID());
+                    session.setAttribute("reservationName", UserFullName);
                 }
             }
             catch (SQLException | ClassNotFoundException ex) {
                 request.setAttribute("errorMessage", "Error creating reservation: " + ex.getMessage() + userID);
+                request.getRequestDispatcher("reservation.jsp").forward(request, response);
             }
             request.getRequestDispatcher("reservationSummary.jsp").forward(request, response);
         }
@@ -79,7 +83,8 @@ public class ReservationServlet extends HttpServlet {
                     request.getRequestDispatcher("reservation.jsp").forward(request, response);
                 } else {
                     session.setAttribute("Reservation", existingReservation);
-                    request.setAttribute("errorMessage", "Reservation found");
+                    String UserFullName = reservationDAO.searchUserName(existingReservation.getUserID());
+                    session.setAttribute("reservationName", UserFullName);
                     request.getRequestDispatcher("reservationSummary.jsp").forward(request, response);
                 }
             } catch (SQLException | ClassNotFoundException ex) {
