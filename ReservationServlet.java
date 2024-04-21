@@ -24,51 +24,78 @@ public class ReservationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	HttpSession session = request.getSession(false);
-    	User currentUser = (User) session.getAttribute("user");
-        int userID = currentUser.getUserID();
-        String checkInDate = request.getParameter("checkInDate");
-        String checkOutDate = request.getParameter("checkOutDate");
-        String roomType = request.getParameter("roomType");
-        int totalGuests = Integer.parseInt(request.getParameter("totalGuests"));
+    	String action = request.getParameter("action");
+    	if ("createReservation".equals(action)) { 
+    	    User currentUser = (User) session.getAttribute("user");
+            int userID = currentUser.getUserID();
+            String checkInDate = request.getParameter("checkInDate");
+            String checkOutDate = request.getParameter("checkOutDate");
+            String roomType = request.getParameter("roomType");
+            int totalGuests = Integer.parseInt(request.getParameter("totalGuests"));
 
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        Date checkIn = null;
-        Date checkOut = null;
-        try {
-            checkIn = formatter.parse(checkInDate);
-            checkOut = formatter.parse(checkOutDate);
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            Date checkIn = null;
+            Date checkOut = null;
+            try {
+                checkIn = formatter.parse(checkInDate);
+                checkOut = formatter.parse(checkOutDate);
+            } catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
+
+            // Calculate Total Cost
+            Pricing pricing = new Pricing();
+            BigDecimal roomPrice = getPriceBasedOnRoomTypeAndGuests(pricing, roomType, totalGuests);
+            BigDecimal totalCost = calculateTotalCost(checkIn, checkOut, roomPrice);
+            
+            // Build necessary Objects
+            Reservation newReservation = new Reservation(userID, checkIn, checkOut, roomType, roomPrice, totalGuests, totalCost, "");
+            ReservationDAO reservationDAO = new ReservationDAO();
+
+            try {
+                String confirmationNumber = reservationDAO.addReservation(newReservation);
+                request.setAttribute("confirmationNumber", confirmationNumber);
+                request.setAttribute("totalCost", totalCost.toPlainString());
+            
+                if (!confirmationNumber.contains("Unable to create reservation:")) {
+                    session.setAttribute("Reservation", newReservation);
+                    request.getRequestDispatcher("reservation.jsp").forward(request, response);
+                }
+            }
+            catch (SQLException | ClassNotFoundException ex) {
+                request.setAttribute("errorMessage", "Error creating reservation: " + ex.getMessage() + userID);
+            }
+            request.getRequestDispatcher("reservationSummary.jsp").forward(request, response);
         }
-
-        Pricing pricing = new Pricing();
-        BigDecimal roomPrice = getPriceBasedOnRoomTypeAndGuests(pricing, roomType, totalGuests);
-
-        BigDecimal totalCost = calculateTotalCost(checkIn, checkOut, roomPrice);
-
-        Reservation newReservation = new Reservation(userID, checkIn, checkOut, roomType, roomPrice, totalGuests, totalCost, "");
-
-        ReservationDAO reservationDAO = new ReservationDAO();
-
-        try {
-            String confirmationNumber = reservationDAO.addReservation(newReservation);
-            request.setAttribute("confirmationNumber", confirmationNumber);
-            request.setAttribute("totalCost", totalCost.toPlainString());
-        } catch (SQLException | ClassNotFoundException ex) {
-            request.setAttribute("confirmationNumber", "Error creating reservation: " + ex.getMessage() + userID);
-            request.setAttribute("totalCost", "N/A");
+    	
+    	// Search for existing Reservation
+    	if ("searchReservation".equals(action)) {
+            String ConfirmationNum = request.getParameter("searchReservation");
+            ReservationDAO reservationDAO = new ReservationDAO();
+            try {
+                Reservation existingReservation = reservationDAO.searchReservation(ConfirmationNum);
+                if (existingReservation == null) {
+                    request.setAttribute("errorMessage", "No reservation found with that confirmation number.");
+                    request.getRequestDispatcher("reservation.jsp").forward(request, response);
+                } else {
+                    session.setAttribute("Reservation", existingReservation);
+                    request.setAttribute("errorMessage", "Reservation found");
+                    request.getRequestDispatcher("reservationSummary.jsp").forward(request, response);
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+                request.setAttribute("errorMessage", "Error while searching for reservation: " + ex.getMessage());
+                request.getRequestDispatcher("reservation.jsp").forward(request, response);
+            }
         }
-
-        request.getRequestDispatcher("reservation.jsp").forward(request, response);
     }
 
     private BigDecimal getPriceBasedOnRoomTypeAndGuests(Pricing pricing, String roomType, int totalGuests) {
         switch (roomType) {
-            case "doublefull":
+            case "double full beds":
                 return (totalGuests >= 3) ? pricing.getRoomDoubleFullHiCap() : pricing.getRoomDoubleFull();
             case "queen":
                 return (totalGuests >= 3) ? pricing.getRoomQueenHiCap() : pricing.getRoomQueen();
-            case "doublequeen":
+            case "double queen":
                 return (totalGuests >= 3) ? pricing.getRoomDoubleQueenHiCap() : pricing.getRoomDoubleQueen();
             case "king":
                 return (totalGuests >= 3) ? pricing.getRoomKingHiCap() : pricing.getRoomKing();
