@@ -11,6 +11,117 @@
 	box-sizing: border-box;
 }
 
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #47525E;
+}
+
+h1 {
+	font-family: 'Berkshire Swash';
+	color: #1CADFB;
+}
+
+h2 {
+	color: red;
+	text-align: center;
+	font-weight: bolder;
+	font-size: x-large;
+}
+
+h3 {
+	color: white;
+	text-align: center;
+	font-weight: 900;
+	font-size: xx-large;
+	margin-top: -15px;
+}
+
+#logo {
+	float: left;
+	display: inline-block;
+	width: 2%;
+}
+
+.clear {
+	clear: both;
+}
+
+#nav {
+	background-color: white;
+	color: #47525E;
+	width: 100%;
+}
+
+.nav {
+	float: right;
+	list-style: none;
+	text-align: left;
+	/*padding: 0px -10px 0px -10px; */
+	margin: 0;
+}
+
+/*max-width: 768px*/
+.nav>li {
+	display: Inline-block;
+	padding: 10px 9px 10px 9px;
+}
+
+/*nav bar text*/
+.nav>li a {
+	text-decoration: none;
+	color: #47525E;
+	font-size: 14px;
+	padding: 5px 0px 5px 0px
+}
+
+.nav>li>a:hover {
+	color: black;
+	*/
+}
+
+/* Set a style for all buttons */
+button {
+	background-color: #1CADFB;
+	color: white;
+	border: none;
+}
+
+.register {
+	padding: 14px 55px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	opacity: 0.9;
+	position: absolute;
+	left: 46%;
+	bottom: 350px;
+}
+
+.bg {
+	height: 100vh;
+	width: 100%;
+}
+
+.topleft {
+	color: red;
+	position: absolute;
+	top: 65px;
+	left: 16px;
+	font-size: 25px;
+}
+
+.centered {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+
+/*Css for image slideshow*/
+
 img {
 	vertical-align: middle;
 }
@@ -101,6 +212,23 @@ img {
 </style>
 </head>
 <body>
+<div id='nav'>
+	<img src="images/SalishSalmon.png" id="logo">
+	<nav>
+		<ul class="nav">
+			<li><a href="attractions.jsp">Attractions</a></li>
+			<li><a href="rooms.jsp">Rooms</a></li>
+			<li><a href="reservation.jsp">Reservations</a></li>
+			<li><a href="aboutUS.jsp">About Us</a></li>
+			<%if (request.isRequestedSessionIdValid() != true){ %>
+			<li><a href="login.jsp"><button type="submit">Login</button></a></li>
+			<%}else {%>
+			<li><a href="landingPage.jsp"><button type="submit">Logout</button></a></li>
+			<%}%>
+		</ul>
+	</nav>
+	<div class="clear"></div>
+</div>	
     <!-- Container for the image gallery -->
 <div class="container">
 
