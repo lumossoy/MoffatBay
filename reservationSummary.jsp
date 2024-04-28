@@ -66,7 +66,7 @@
 </div>
 <div class="centered">
     <h2>Reservation Summary</h2>
-    <p>Name: ${Reservation.UserName}</p>
+    <p>Name: ${Reservation.getUserName()}</p>
     <p>Check-In Date: ${Reservation.getCheckInDate()}</p>
     <p>Check-Out Date: ${Reservation.getCheckOutDate()}</p>
 <%
@@ -88,3 +88,4 @@
 </div>
 </body>
 </html>
+
