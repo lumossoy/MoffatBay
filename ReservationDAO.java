@@ -33,13 +33,12 @@ public class ReservationDAO {
             newReservation.setConfirmationNumber(confirmationNum);
             
             // Insert into Reservation Table
-            String sql = "INSERT INTO reservations (UserID, CheckInDate, CheckOutDate, TotalPrice, ConfirmationNum) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO reservations (CheckInDate, CheckOutDate, TotalPrice, ConfirmationNum) VALUES (?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                preparedStatement.setInt(1, newReservation.getUserID());
-                preparedStatement.setDate(2, new java.sql.Date(newReservation.getCheckInDate().getTime()));
-                preparedStatement.setDate(3, new java.sql.Date(newReservation.getCheckOutDate().getTime()));
-                preparedStatement.setBigDecimal(4, newReservation.getTotalPrice());
-                preparedStatement.setString(5, confirmationNum);
+                preparedStatement.setDate(1, new java.sql.Date(newReservation.getCheckInDate().getTime()));
+                preparedStatement.setDate(2, new java.sql.Date(newReservation.getCheckOutDate().getTime()));
+                preparedStatement.setBigDecimal(3, newReservation.getTotalPrice());
+                preparedStatement.setString(4, confirmationNum);
                 preparedStatement.executeUpdate();
 
                 try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
@@ -50,7 +49,16 @@ public class ReservationDAO {
             }
 
             if (reservationID != -1) {
-                // Insert into Rooms Table
+                
+                // Insert into User_Reservations Table
+                sql = "INSERT INTO user_reservations (userID, ReservationID) VALUES (?, ?)";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    preparedStatement.setInt(1, newReservation.getUserID());
+                    preparedStatement.setInt(2, reservationID);
+                    preparedStatement.executeUpdate();
+                }
+            	
+            	// Insert into Rooms Table
                 sql = "INSERT INTO rooms (ReservationID, RoomType, RoomPrice, TotalGuests) VALUES (?, ?, ?, ?)";
                 for (Room room : newReservation.roomBookings) {
                     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -95,14 +103,14 @@ public class ReservationDAO {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         try (Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword)) {
-            // Fetch reservation details
-            String sqlReservation = "SELECT ReservationID, UserID, CheckInDate, CheckOutDate, TotalPrice FROM reservations WHERE ConfirmationNum = ?";
+            
+        	// Fetch reservation details
+            String sqlReservation = "SELECT ReservationID, CheckInDate, CheckOutDate, TotalPrice FROM reservations WHERE ConfirmationNum = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlReservation)) {
                 preparedStatement.setString(1, confirmationNum);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         reservationID = resultSet.getInt("ReservationID");
-                        userID = resultSet.getInt("UserID");
                         checkInDate = resultSet.getDate("CheckInDate");
                         checkOutDate = resultSet.getDate("CheckOutDate");
                         totalPrice = resultSet.getBigDecimal("TotalPrice");
@@ -113,6 +121,17 @@ public class ReservationDAO {
             // Trigger reservation not found
             if (reservationID == -1) {
                 return null; 
+            }
+            
+            // Fetch user ID
+            String sqlUser = "SELECT UserID FROM user_reservations WHERE ReservationID = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUser)) {
+                preparedStatement.setInt(1, reservationID);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        userID = resultSet.getInt("UserID");
+                    }
+                }
             }
 
             // Create the Reservation object
@@ -132,7 +151,7 @@ public class ReservationDAO {
                     }
                 }
             }
-
+            
             return reservation;
         } catch (SQLException e) {
             e.printStackTrace();
