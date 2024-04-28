@@ -2,8 +2,8 @@ package myBean;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 
 public class Reservation {
     // Attributes
@@ -46,7 +46,7 @@ public class Reservation {
         long diff = checkOutDate.getTime() - checkInDate.getTime();
         long days = diff / (1000 * 60 * 60 * 24);
         if (days <= 0) {
-            days = 1;  // Ensuring there's at least one day charged
+            days = 1;  
         }
         BigDecimal daysBigDecimal = BigDecimal.valueOf(days);
 
@@ -56,6 +56,12 @@ public class Reservation {
         }
 
         this.totalPrice = total;
+    }
+    
+    // function to clean date for display
+    public String cleanDate(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        return formatter.format(date);
     }
 
     // Getters and setters
@@ -137,3 +143,4 @@ public class Reservation {
     	return roomBookings;
     }
 }
+
