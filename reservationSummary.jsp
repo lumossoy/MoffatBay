@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="myBean.Reservation" %>
+<%@ page import="myBean.Room" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,12 +66,25 @@
 </div>
 <div class="centered">
     <h2>Reservation Summary</h2>
-    <p>Name: ${reservationName}</p>
+    <p>Name: ${Reservation.UserName}</p>
     <p>Check-In Date: ${Reservation.getCheckInDate()}</p>
     <p>Check-Out Date: ${Reservation.getCheckOutDate()}</p>
-    <p>Room: ${Reservation.getRoomType()}</p>
-    <p>Total Guests: ${Reservation.getTotalGuests()}</p>
-    <p>Total Price: ${Reservation.getTotalCost()}</p>
+<%
+    ArrayList<Room> roomBookings = ((Reservation) request.getAttribute("Reservation")).getRoomBookings();
+    for (int i = 0; i < roomBookings.size(); i++) {
+        Room room = roomBookings.get(i);
+%>
+    <h3>Room <%= i + 1 %></h3>
+    <p>Room Type: <%= room.getRoomType() %></p>
+    <p>Guests: <%= room.getTotalGuests() %></p>
+    <p>Price: <%= room.getRoomPrice() %></p>
+<%
+    }
+%>
+
+    <br>
+    <p>Total Price: ${Reservation.getTotalPrice()}</p>
+    <p>Confirmation Number: ${Reservation.getConfirmationNumber()}</p>
 </div>
 </body>
 </html>
