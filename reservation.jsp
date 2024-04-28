@@ -72,6 +72,11 @@ $(function() {
     // Add initial room
     $("#additionalRooms").append(addRoom(roomCounter));  
 });
+
+//Redirect if not signed in
+<% if (session.getAttribute("user") == null) { %>
+    window.location.href = "login.jsp";  // Redirect to login page if user not signed in
+<% } %>
 </script>
 <style>
     body {
@@ -177,4 +182,3 @@ $(function() {
     </div>
 </body>
 </html>
-
