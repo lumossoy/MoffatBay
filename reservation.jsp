@@ -9,28 +9,69 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-    $(function() {
-        // Initialize the datepickers
-        $("#checkInDate").datepicker({
-            minDate: 0,
-            onSelect: function(selectedDate) {
-                var minDate = new Date(selectedDate);
-                minDate.setDate(minDate.getDate() + 1);
-                $("#checkOutDate").datepicker("option", "minDate", minDate);
-            }
-        });
-        $("#checkOutDate").datepicker({ minDate: '+1d' });
+$(function() {
+    $("#checkInDate").datepicker({
+        minDate: 0,
+        onSelect: function(selectedDate) {
+            var minDate = new Date(selectedDate);
+            minDate.setDate(minDate.getDate() + 1);
+            $("#checkOutDate").datepicker("option", "minDate", minDate);
+        }
+    });
+    $("#checkOutDate").datepicker({ minDate: '+1d' });
 
-        // Toggle reservation search form
-        $("#searchToggle").click(function() {
-            $("#searchForm").toggle();
-        });
+    $("#searchToggle").click(function() {
+        $("#searchForm").toggle();
     });
 
-    // Redirect if not signed in
-    <% if (session.getAttribute("user") == null) { %>
-        window.location.href = "login.jsp";  // Redirect to login page if user not signed in
-    <% } %>
+    var roomCounter = 1;
+
+    // Function to create a room form with the correct number of rooms
+    function addRoom(roomNumber) {
+        var newRoomForm = "<div class='room' id='room" + roomNumber + "'><strong>Room " + roomNumber + "</strong>" +
+            "<div>" +
+            "<label>Room Type:</label>" +
+            "<select name='roomType'>" +
+            "<option value='double full beds'>Double Full</option>" +
+            "<option value='queen'>Queen</option>" +
+            "<option value='double queen'>Double Queen</option>" +
+            "<option value='king'>King</option>" +
+            "</select><br>" +
+            "<label>Number of Guests:</label>" +
+            "<select name='totalGuests'>" +
+            "<option>1</option>" +
+            "<option>2</option>" +
+            "<option>3</option>" +
+            "<option>4</option>" +
+            "<option>5</option>" +
+            "</select><br>" +
+            "</div></div>";
+        return newRoomForm;
+    }
+
+    // add a room to the list
+    $("#addRoomBtn").click(function() {
+        roomCounter++;
+        $("#additionalRooms").append(addRoom(roomCounter));
+        if (roomCounter > 1) {
+            $("#removeRoomBtn").show(); 
+        }
+    });
+
+    // remove the most recent button
+    $("#removeRoomBtn").click(function() {
+        if (roomCounter > 1) {
+            $("#room" + roomCounter).remove(); 
+            roomCounter--;
+            if (roomCounter === 1) {
+                $("#removeRoomBtn").hide(); 
+            }
+        }
+    });
+
+    // Add initial room
+    $("#additionalRooms").append(addRoom(roomCounter));  
+});
 </script>
 <style>
     body {
@@ -87,6 +128,10 @@
         border: none;
         cursor: pointer;
     }
+    .room {
+    text-align: center;
+    margin-top: 20px; /* Adds some spacing between rooms */
+}
 </style>
 </head>
 <body>
@@ -101,28 +146,18 @@
 			</ul>
         </nav>
     </div>
-    <div class="centered">
+<div class="centered">
         <form action="ReservationServlet" method="post">
             <h2>Book Your Stay</h2>
             <label for="checkInDate">Check-in:</label>
-            <input type="text" id="checkInDate" name="checkInDate" class="datepicker" required><br>
+            <input type="text" id="checkInDate" name="checkInDate" class="datepicker" required readonly><br>
             <label for="checkOutDate">Check-out:</label>
-            <input type="text" id="checkOutDate" name="checkOutDate" class="datepicker" required><br>
-            <label for="roomType">Room Type:</label>
-            <select id="roomType" name="roomType">
-                <option value="double full beds">Double Full</option>
-                <option value="queen">Queen</option>
-                <option value="double queen">Double Queen</option>
-                <option value="king">King</option>
-            </select><br>
-            <label for="totalGuests">Number of Guests:</label>
-            <select id="totalGuests" name="totalGuests">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select><br>
+            <input type="text" id="checkOutDate" name="checkOutDate" class="datepicker" required readonly><br>
+            <div id="roomsContainer">
+                <div id="additionalRooms"></div>
+            </div>
+            <button type="button" id="addRoomBtn">Add Room</button><br>
+            <button type="button" id="removeRoomBtn" style="display:none;">Remove Room</button><br>
             <button type="submit" name="action" value="createReservation">Complete Reservation</button><br><br>
         </form>
         <div id="searchToggle">Already have a reservation? <a>Click Here</a></div>
@@ -142,3 +177,4 @@
     </div>
 </body>
 </html>
+
