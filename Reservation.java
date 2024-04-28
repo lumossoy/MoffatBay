@@ -1,5 +1,6 @@
 package myBean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.math.BigDecimal;
@@ -7,13 +8,16 @@ import java.math.BigDecimal;
 public class Reservation {
     // Attributes
     private int userID;
+    private String userName;
     private Date checkInDate;
     private Date checkOutDate;
     private String roomType;
     private BigDecimal roomPrice;
     private int totalGuests;
-    private BigDecimal totalCost;
+    private BigDecimal totalPrice;
     private String confirmationNumber;
+    public ArrayList<Room> roomBookings = new ArrayList<>();
+
 
     // No-arg constructor
     public Reservation() {
@@ -21,16 +25,37 @@ public class Reservation {
     }
 
     // Args constructor
-    public Reservation(int userID, Date checkInDate, Date checkOutDate, String roomType,
-    		           BigDecimal roomPrice, int totalGuests, BigDecimal totalCost, String confirmationNumber) {
+    public Reservation(int userID, Date checkInDate, Date checkOutDate, String confirmationNumber) {
         this.userID = userID;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
-        this.roomType = roomType;
-        this.roomPrice = roomPrice;
-        this.totalGuests = totalGuests;
-        this.totalCost = totalCost;
         this.confirmationNumber = confirmationNumber;
+        this.roomBookings = new ArrayList<>();
+    }
+    
+    // function to add rooms
+    public void addRoom(String roomType, BigDecimal roomPrice, int totalGuests) {
+        Room newRoom = new Room(roomType, roomPrice, totalGuests);
+        this.roomBookings.add(newRoom);
+        calculateTotalPrice(); 
+    }
+    
+    // function to calculate totalPrice
+    public void calculateTotalPrice() {
+        BigDecimal total = BigDecimal.ZERO;
+        long diff = checkOutDate.getTime() - checkInDate.getTime();
+        long days = diff / (1000 * 60 * 60 * 24);
+        if (days <= 0) {
+            days = 1;  // Ensuring there's at least one day charged
+        }
+        BigDecimal daysBigDecimal = BigDecimal.valueOf(days);
+
+        for (Room room : roomBookings) {
+            BigDecimal totalCostForRoom = room.getRoomPrice().multiply(daysBigDecimal);
+            total = total.add(totalCostForRoom);
+        }
+
+        this.totalPrice = total;
     }
 
     // Getters and setters
@@ -48,6 +73,7 @@ public class Reservation {
 
     public void setCheckInDate(Date checkInDate) {
         this.checkInDate = checkInDate;
+        calculateTotalPrice(); 
     }
 
     public Date getCheckOutDate() {
@@ -56,6 +82,7 @@ public class Reservation {
 
     public void setCheckOutDate(Date checkOutDate) {
         this.checkOutDate = checkOutDate;
+        calculateTotalPrice();
     }
 
     public String getRoomType() {
@@ -82,12 +109,12 @@ public class Reservation {
         this.totalGuests = totalGuests;
     }
 
-    public BigDecimal getTotalCost() {
-        return totalCost;
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setTotalCost(BigDecimal totalCost) {
-        this.totalCost = totalCost;
+    public void setTotalPrice(BigDecimal totalCost) {
+        this.totalPrice = totalCost;
     }
 
     public String getConfirmationNumber() {
@@ -96,5 +123,17 @@ public class Reservation {
 
     public void setConfirmationNumber(String confirmationNumber) {
         this.confirmationNumber = confirmationNumber;
+    }
+    
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    
+    public ArrayList<Room> getRoomBookings() {
+    	return roomBookings;
     }
 }
