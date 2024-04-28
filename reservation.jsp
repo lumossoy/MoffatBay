@@ -10,7 +10,9 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 $(function() {
-    $("#checkInDate").datepicker({
+    
+	// Function for calendar choice of reservation
+	$("#checkInDate").datepicker({
         minDate: 0,
         onSelect: function(selectedDate) {
             var minDate = new Date(selectedDate);
@@ -24,6 +26,36 @@ $(function() {
         $("#searchForm").toggle();
     });
 
+    // Disable the "Complete Reservation" button initially
+    $("#completeReservationBtn").prop("disabled", true);
+
+    // Enable the button when both dates are selected
+    $("#checkInDate, #checkOutDate").on("change", function() {
+        const checkInDate = $("#checkInDate").val();
+        const checkOutDate = $("#checkOutDate").val();
+
+        if (checkInDate && checkOutDate) {
+            $("#completeReservationBtn").prop("disabled", false);
+        } else {
+            $("#completeReservationBtn").prop("disabled", true);
+        }
+    });
+    
+    // Disable the Complete Reservation button initially
+    $("#completeReservationBtn").prop("disabled", true);
+
+    // Enable the button when both dates are selected
+    $("#checkInDate, #checkOutDate").on("change", function() {
+        const checkInDate = $("#checkInDate").val();
+        const checkOutDate = $("#checkOutDate").val();
+
+        if (checkInDate && checkOutDate) {
+            $("#completeReservationBtn").prop("disabled", false);
+        } else {
+            $("#completeReservationBtn").prop("disabled", true);
+        }
+    });
+    
     var roomCounter = 1;
 
     // Function to create a room form with the correct number of rooms
@@ -49,7 +81,7 @@ $(function() {
         return newRoomForm;
     }
 
-    // add a room to the list
+    // Add a room to the list
     $("#addRoomBtn").click(function() {
         roomCounter++;
         $("#additionalRooms").append(addRoom(roomCounter));
@@ -58,7 +90,7 @@ $(function() {
         }
     });
 
-    // remove the most recent button
+    // Remove the most recent room button
     $("#removeRoomBtn").click(function() {
         if (roomCounter > 1) {
             $("#room" + roomCounter).remove(); 
@@ -75,7 +107,7 @@ $(function() {
 
 //Redirect if not signed in
 <% if (session.getAttribute("user") == null) { %>
-    window.location.href = "login.jsp";  // Redirect to login page if user not signed in
+    window.location.href = "login.jsp";
 <% } %>
 </script>
 <style>
@@ -120,7 +152,7 @@ $(function() {
         background: rgba(255, 255, 255, 0.8);
         padding: 20px;
         border-radius: 8px;
-        min-height: 450px;  // Set a minimum height to maintain form size
+        min-height: 450px; 
     }
     input, select, button {
         margin: 10px 0;
@@ -136,7 +168,18 @@ $(function() {
     .room {
     text-align: center;
     margin-top: 20px; /* Adds some spacing between rooms */
-}
+    }
+    
+    #completeReservationBtn:enabled {
+        background-color: #1CADFB; 
+        color: white;
+    }
+    
+    #completeReservationBtn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed; 
+        color: white;
+    }
 </style>
 </head>
 <body>
@@ -163,7 +206,8 @@ $(function() {
             </div>
             <button type="button" id="addRoomBtn">Add Room</button><br>
             <button type="button" id="removeRoomBtn" style="display:none;">Remove Room</button><br>
-            <button type="submit" name="action" value="createReservation">Complete Reservation</button><br><br>
+            <button type="submit" id="completeReservationBtn" name="action" value="createReservation" disabled>
+            Complete Reservation</button><br><br>
         </form>
         <div id="searchToggle">Already have a reservation? <a>Click Here</a></div>
         <div id="searchForm" style="display:none;">
