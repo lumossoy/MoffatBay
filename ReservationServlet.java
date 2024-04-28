@@ -22,17 +22,14 @@ public class ReservationServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	HttpSession session = request.getSession(false);
-    	String action = request.getParameter("action");
-    	
-    	// Create reservation action
-    	if ("createReservation".equals(action)) { 
-    	    User currentUser = (User) session.getAttribute("user");
+        HttpSession session = request.getSession(false);
+        String action = request.getParameter("action");
+
+        if ("createReservation".equals(action)) {
+            User currentUser = (User) session.getAttribute("user");
             int userID = currentUser.getUserID();
             String checkInDate = request.getParameter("checkInDate");
             String checkOutDate = request.getParameter("checkOutDate");
-            String roomType = request.getParameter("roomType");
-            int totalGuests = Integer.parseInt(request.getParameter("totalGuests"));
 
             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
             Date checkIn = null;
@@ -44,28 +41,35 @@ public class ReservationServlet extends HttpServlet {
                 e.printStackTrace();
             }
 
-            // Calculate Total Cost
-            Pricing pricing = new Pricing();
-            BigDecimal roomPrice = getPriceBasedOnRoomTypeAndGuests(pricing, roomType, totalGuests);
-            BigDecimal totalCost = calculateTotalCost(checkIn, checkOut, roomPrice);
-            
-            // Build necessary Objects
-            Reservation newReservation = new Reservation(userID, checkIn, checkOut, roomType, roomPrice, totalGuests, totalCost, "");
+            Reservation newReservation = new Reservation(userID, checkIn, checkOut, "");
             ReservationDAO reservationDAO = new ReservationDAO();
+            
+            // Pricing
+            Pricing pricing = new Pricing();
+            String[] roomTypes = request.getParameterValues("roomType");
+            String[] totalGuests = request.getParameterValues("totalGuests");
+
+            if (roomTypes != null) {
+                for (int i = 0; i < roomTypes.length; i++) {
+                    int guests = Integer.parseInt(totalGuests[i]);
+                    BigDecimal roomPrice = getPriceBasedOnRoomTypeAndGuests(pricing, roomTypes[i], guests);
+                    newReservation.addRoom(roomTypes[i], roomPrice, guests);
+                }
+            }
 
             try {
                 String confirmationNumber = reservationDAO.addReservation(newReservation);
                 request.setAttribute("confirmationNumber", confirmationNumber);
-                request.setAttribute("totalCost", totalCost.toPlainString());
-            
+                request.setAttribute("totalPrice", newReservation.getTotalPrice().toPlainString());
+                
                 if (!confirmationNumber.contains("Unable to create reservation:")) {
-                	Reservation existingReservation = reservationDAO.searchReservation(newReservation.getConfirmationNumber());
-                	session.setAttribute("Reservation", existingReservation);
-                    String UserFullName = reservationDAO.searchUserName(existingReservation.getUserID());
-                    session.setAttribute("reservationName", UserFullName);
+                    Reservation existingReservation = reservationDAO.searchReservation(confirmationNumber);
+                    // Retrieve and set the full user name
+                    String UserFullName = reservationDAO.searchUserName(userID);
+                    newReservation.setUserName(UserFullName); 
+                    session.setAttribute("Reservation", existingReservation);
                 }
-            }
-            catch (SQLException | ClassNotFoundException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 request.setAttribute("errorMessage", "Error creating reservation: " + ex.getMessage() + userID);
                 request.getRequestDispatcher("reservation.jsp").forward(request, response);
             }
@@ -107,13 +111,5 @@ public class ReservationServlet extends HttpServlet {
             default:
                 return new BigDecimal("0.00");
         }
-    }
-
-    private BigDecimal calculateTotalCost(Date checkIn, Date checkOut, BigDecimal roomPrice) {
-        long diff = checkOut.getTime() - checkIn.getTime();
-        long days = diff / (1000 * 60 * 60 * 24);
-        BigDecimal daysBigDecimal = BigDecimal.valueOf(days);
-        BigDecimal totalCost = roomPrice.multiply(daysBigDecimal);      
-        return totalCost;
     }
 }
