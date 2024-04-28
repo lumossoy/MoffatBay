@@ -67,21 +67,22 @@
 <div class="centered">
     <h2>Reservation Summary</h2>
     <p>Name: ${Reservation.getUserName()}</p>
-    <p>Check-In Date: ${Reservation.getCheckInDate()}</p>
-    <p>Check-Out Date: ${Reservation.getCheckOutDate()}</p>
+    <p>Check-In Date: ${Reservation.cleanDate(Reservation.getCheckInDate())}</p>
+    <p>Check-Out Date: ${Reservation.cleanDate(Reservation.getCheckOutDate())}</p>
+
 <%
-    ArrayList<Room> roomBookings = ((Reservation) request.getAttribute("Reservation")).getRoomBookings();
+    ArrayList<Room> roomBookings = ((Reservation) session.getAttribute("Reservation")).getRoomBookings();
     for (int i = 0; i < roomBookings.size(); i++) {
         Room room = roomBookings.get(i);
 %>
+    <br>
     <h3>Room <%= i + 1 %></h3>
     <p>Room Type: <%= room.getRoomType() %></p>
     <p>Guests: <%= room.getTotalGuests() %></p>
-    <p>Price: <%= room.getRoomPrice() %></p>
+    <p>Price: <%= room.getRoomPrice() %> per night</p>
 <%
     }
 %>
-
     <br>
     <p>Total Price: ${Reservation.getTotalPrice()}</p>
     <p>Confirmation Number: ${Reservation.getConfirmationNumber()}</p>
