@@ -33,12 +33,12 @@ public class ReservationDAO {
             newReservation.setConfirmationNumber(confirmationNum);
             
             // Insert into Reservation Table
-            String sql = "INSERT INTO reservations (CheckInDate, CheckOutDate, TotalGuests, TotalPrice, ConfirmationNum) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO reservations (UserID, CheckInDate, CheckOutDate, TotalPrice, ConfirmationNum) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                preparedStatement.setDate(1, new java.sql.Date(newReservation.getCheckInDate().getTime()));
-                preparedStatement.setDate(2, new java.sql.Date(newReservation.getCheckOutDate().getTime()));
-                preparedStatement.setInt(3, newReservation.getTotalGuests());
-                preparedStatement.setBigDecimal(4, newReservation.getTotalCost());
+                preparedStatement.setInt(1, newReservation.getUserID());
+                preparedStatement.setDate(2, new java.sql.Date(newReservation.getCheckInDate().getTime()));
+                preparedStatement.setDate(3, new java.sql.Date(newReservation.getCheckOutDate().getTime()));
+                preparedStatement.setBigDecimal(4, newReservation.getTotalPrice());
                 preparedStatement.setString(5, confirmationNum);
                 preparedStatement.executeUpdate();
 
@@ -50,25 +50,21 @@ public class ReservationDAO {
             }
 
             if (reservationID != -1) {
-                // Insert into User_Reservations Table
-                sql = "INSERT INTO user_reservations (userID, ReservationID) VALUES (?, ?)";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                    preparedStatement.setInt(1, newReservation.getUserID());
-                    preparedStatement.setInt(2, reservationID);
-                    preparedStatement.executeUpdate();
-                }
                 // Insert into Rooms Table
-                sql = "INSERT INTO rooms (ReservationID, RoomType, RoomPrice) VALUES (?, ?, ?)";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                    preparedStatement.setInt(1, reservationID);
-                    preparedStatement.setString(2, newReservation.getRoomType());
-                    preparedStatement.setBigDecimal(3, newReservation.getRoomPrice());
-                    preparedStatement.executeUpdate();
+                sql = "INSERT INTO rooms (ReservationID, RoomType, RoomPrice, TotalGuests) VALUES (?, ?, ?, ?)";
+                for (Room room : newReservation.roomBookings) {
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                        preparedStatement.setInt(1, reservationID);
+                        preparedStatement.setString(2, room.getRoomType());
+                        preparedStatement.setBigDecimal(3, room.getRoomPrice());
+                        preparedStatement.setInt(4, room.getTotalGuests());
+                        preparedStatement.executeUpdate();
+                    }
                 }
             }
 
             connection.commit();
-            resultMessage = "" + confirmationNum;
+            resultMessage = confirmationNum;
         } catch (SQLException e) {
             if (connection != null) {
                 connection.rollback(); 
@@ -84,6 +80,7 @@ public class ReservationDAO {
         return resultMessage;
     }
 
+
     // Method to search for a reservation
     public Reservation searchReservation(String confirmationNum) throws SQLException, ClassNotFoundException {
         String jdbcURL = "jdbc:mysql://localhost:3306/MoffatBayTest";
@@ -93,61 +90,56 @@ public class ReservationDAO {
         int userID = -1;
         Date checkInDate = null;
         Date checkOutDate = null;
-        int totalGuests = 0;
         BigDecimal totalPrice = null;
-        String roomType = null;
-        BigDecimal roomPrice = null;
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         try (Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword)) {
             // Fetch reservation details
-            String sqlReservation = "SELECT ReservationID, CheckInDate, CheckOutDate, TotalGuests, TotalPrice FROM reservations WHERE ConfirmationNum = ?";
+            String sqlReservation = "SELECT ReservationID, UserID, CheckInDate, CheckOutDate, TotalPrice FROM reservations WHERE ConfirmationNum = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlReservation)) {
                 preparedStatement.setString(1, confirmationNum);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         reservationID = resultSet.getInt("ReservationID");
+                        userID = resultSet.getInt("UserID");
                         checkInDate = resultSet.getDate("CheckInDate");
                         checkOutDate = resultSet.getDate("CheckOutDate");
-                        totalGuests = resultSet.getInt("TotalGuests");
                         totalPrice = resultSet.getBigDecimal("TotalPrice");
                     }
                 }
             }
-            
-            if (reservationID == -1) return null;
-            
+
+            // Trigger reservation not found
+            if (reservationID == -1) {
+                return null; 
+            }
+
+            // Create the Reservation object
+            Reservation reservation = new Reservation(userID, checkInDate, checkOutDate, confirmationNum);
+            reservation.setTotalPrice(totalPrice);
+
             // Fetch room details
-            String sqlRoom = "SELECT RoomType, RoomPrice FROM rooms WHERE ReservationID = ?";
+            String sqlRoom = "SELECT RoomType, RoomPrice, TotalGuests FROM rooms WHERE ReservationID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlRoom)) {
                 preparedStatement.setInt(1, reservationID);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        roomType = resultSet.getString("RoomType");
-                        roomPrice = resultSet.getBigDecimal("RoomPrice");
+                    while (resultSet.next()) {
+                        String roomType = resultSet.getString("RoomType");
+                        BigDecimal roomPrice = resultSet.getBigDecimal("RoomPrice");
+                        int totalGuests = resultSet.getInt("TotalGuests");
+                        reservation.addRoom(roomType, roomPrice, totalGuests);
                     }
                 }
             }
 
-            // Fetch user ID
-            String sqlUser = "SELECT UserID FROM user_reservations WHERE ReservationID = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUser)) {
-                preparedStatement.setInt(1, reservationID);
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        userID = resultSet.getInt("UserID");
-                    }
-                }
-            }
-
-            // Create and return the existing Reservation object
-            return new Reservation(userID, checkInDate, checkOutDate, roomType, roomPrice, totalGuests, totalPrice, confirmationNum);
+            return reservation;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Unable to retrieve reservation: " + e.getMessage());
         }
     }
+
     
     // Method to return the full user name
     public String searchUserName(int userID) throws SQLException, ClassNotFoundException {
