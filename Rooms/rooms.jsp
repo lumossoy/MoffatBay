@@ -13,79 +13,71 @@
             padding: 0;
         }
 
-        * {
-            box-sizing: border-box;
-        }
-
         #logo {
-            float: left;
-            display: inline-block;
-            width: 2%;
-        }
+	float: left;
+	display: inline-block;
+	width: 5%;
+}
 
-        .navigation header {
-            background-color: #FFFFFF;
-            width: 100%;
-            height: 59px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-        }
+header {
+    background-color: #FFFFFF;
+    width: 100%; /* Change to 100% for responsiveness */
+    height: 59px;
+    display: flex;
+    justify-content: space-between; /* Align h1 and nav to opposite sides */
+    align-items: center; /* Align items vertically */
+    padding: 0 20px; /* Add padding for better spacing */
+}
 
-        h1 {
-            color: #1CADFB;
-            font-family: "Berkshire Swash", cursive;
-            font-size: 30px;
-            line-height: 39px;
-            margin: 0;
-        }
+h1 {
+    color: #1CADFB;
+    font-family: "Berkshire Swash", cursive;
+    font-size: 30px;
+    line-height: 39px;
+    margin: 0; /* Remove default margin */
+}
 
-        #nav {
-            background-color: white;
-            color: #47525E;
-            width: 100%;
-            padding: 10px 0;
-        }
+.logo a {
+    text-decoration: none;
+    color: #1CADFB; /* Set color for link */
+}
 
-        .nav {
-            float: right;
-            list-style: none;
-            text-align: left;
-            margin: 0;
-            padding: 0;
-        }
+.logo a:hover {
+    text-decoration: none;
+}
 
-        .nav>li {
-            display: inline-block;
-            margin-right: 10px;
-        }
+.logo a:visited {
+    color: #1CADFB; /* Set color for visited link */
+}
 
-        .nav>li>a {
-            text-decoration: none;
-            color: #47525E;
-            font-size: 14px;
-            padding: 5px 10px;
-        }
+nav ul {
+    list-style-type: none; /* Remove default bullet points */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
 
-        .nav>li>a:hover {
-            color: black;
-        }
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
 
-        .nav a.active {
-            background-color: #f7f8fa;
-            color: #019fc2;
-            cursor: default;
-        }
+nav ul li a {
+    color: #47525E;
+    text-decoration: none;
+}
 
-        button {
-            background-color: #1CADFB;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            cursor: pointer;
-            text-decoration: none; 
-        }
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+button {
+    background-color: #1CADFB;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    text-decoration: none; 
+}
 
         .container {
             text-align: center;
@@ -139,17 +131,19 @@
     </style>
 </head>
 <body>
-    <div id='nav'>
-        <img src="images/SalishSalmon.png" alt="Moffat Bay Logo" id="logo">
-        <nav>
-            <ul class="nav">
-                <li><a href="#attractions">Attractions</a></li>
-                <li><a href="rooms.jsp">Rooms</a></li>
-                <li><a href="#reservations">Reservations</a></li>
-                <li><a href="aboutUs.jsp">About Us</a></li>
-                <li><a href="login.jsp"><button type="submit">Login</button></a></li>
-            </ul>
-        </nav>
+    <div class="navigation">
+        <header>
+            <h1 class="logo"><a href="landingPage.jsp"><img src="images/SalishSalmon.png" alt="Moffat Bay Logo" id="logo">Moffat Bay Lodge</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="attractions.jsp">Attractions</a></li>
+                    <li><a href="rooms.jsp">Rooms</a></li>
+                    <li><a href="reservation.jsp">Reservations</a></li>
+                    <li><a href="aboutUs.jsp">About Us</a></li>
+                    <li><a href="login.jsp"><button type="submit">Login</button></a></li>
+                </ul>
+            </nav>
+        </header>
     </div>
     <div class="container">
         <hr width="100%" size="2">
