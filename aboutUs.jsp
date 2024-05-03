@@ -38,6 +38,19 @@ h1 {
     margin: 0; /* Remove default margin */
 }
 
+.logo a {
+    text-decoration: none;
+    color: #1CADFB; /* Set color for link */
+}
+
+.logo a:hover {
+    text-decoration: none;
+}
+
+.logo a:visited {
+    color: #1CADFB; /* Set color for visited link */
+}
+
 nav ul {
     list-style-type: none; /* Remove default bullet points */
     margin: 0; /* Remove default margin */
@@ -59,13 +72,13 @@ nav ul li a:hover {
 }
 
 button {
-            background-color: #1CADFB;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            cursor: pointer;
-            text-decoration: none; 
-        }
+    background-color: #1CADFB;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    text-decoration: none; 
+}
 
 .container {
     width: 80%;
@@ -111,14 +124,14 @@ h3 {
 <body>
     <div class="navigation">
         <header>
-            <h1><img src="images/SalishSalmon.png" alt="Moffat Bay Logo" id="logo" >Moffat Bay Lodge</h1>
+            <h1 class="logo"><a href="landingPage.jsp"><img src="images/SalishSalmon.png" alt="Moffat Bay Logo" id="logo">Moffat Bay Lodge</a></h1>
             <nav>
                 <ul>
-                    <li><a href="#attractions">Attractions</a></li>
+                    <li><a href="attractions.jsp">Attractions</a></li>
                     <li><a href="rooms.jsp">Rooms</a></li>
                     <li><a href="reservation.jsp">Reservations</a></li>
                     <li><a href="aboutUs.jsp">About Us</a></li>
-                    <li><a href="login.jsp"><button type="submit">Login</button></a></li>
+					<li><a href="login.jsp"><button type="submit">Login</button></a></li>
                 </ul>
             </nav>
         </header>
