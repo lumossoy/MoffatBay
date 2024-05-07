@@ -134,6 +134,8 @@ img {
 /* Hide the images by default */
 .attractionSlides {
 	display: none;
+	object-fit: contain;
+	
 }
 
 /* Add a pointer when hovering over the thumbnail images */
@@ -181,6 +183,8 @@ img {
 
 /* Container for image text */
 .caption-container {
+	position: relative;
+	margin: auto;
 	font-size: x-large;
 	text-align: center;
 	background-color: black;
@@ -203,6 +207,10 @@ img {
 /* Add a transparency effect for thumnbail images */
 .moffatTN {
 	opacity: 0.6;
+	width: 24.8vw; 
+	height: 20vw; 
+	object-fit: fill; 
+	overflow: hidden;
 }
 
 .active,
@@ -235,7 +243,7 @@ img {
   <!-- Full-width images with numbered text -->
   <div class="attractionSlides">
     <div class="imgNum">1 / 4</div>
-      <img src="images/hiking1.png" style = "width:100%">
+      <img src="images/hiking3.png" style = "width:100%;">
   </div>
 
   <div class="attractionSlides">
@@ -261,23 +269,23 @@ img {
   <div class="caption-container">
     <p id="caption"></p>
   </div>
-
+</div>
   <!-- Thumbnail images -->
   <div class="row">
     <div class="column">
-      <img class="moffatTN cursor" src="images/hiking1.png" style = "width:100%;" onclick="currentSlide(1)" alt = "Have an adventure on our various hiking trails">
+      <img class="moffatTN cursor" src="images/hiking3.png" onclick = "currentSlide(1)" alt = "Have an adventure on our various hiking trails">
     </div>
     <div class="column">
-      <img class="moffatTN cursor" src="images/kayaking.png" style = "width:100%" onclick = "currentSlide(2)"  alt = "Enjoy kayaking our illustrous rivers">
+      <img class="moffatTN cursor" src="images/kayaking.png" onclick = "currentSlide(2)"  alt = "Enjoy kayaking our illustrous rivers">
     </div>
     <div class="column">
-      <img class="moffatTN cursor" src="images/scuba-diving.png" style = "width:100%" onclick = "currentSlide(3)"  alt = "Scuba dive and visit the world's finest wilderness benath the waves">
+      <img class="moffatTN cursor" src="images/scuba-diving.png" onclick = "currentSlide(3)"  alt = "Scuba dive and visit the world's finest wilderness benath the waves">
     </div>
     <div class="column">
-      <img class="moffatTN cursor" src="images/whale-watching.png" style = "width:100%" onclick = "currentSlide(4)"  alt = "Relax and watch the whales">
+      <img class="moffatTN cursor" src="images/whale-watching.png" onclick = "currentSlide(4)"  alt = "Relax and watch the whales">
     </div>
   </div>
-</div>
+
 <script>
 let slideIndex = 1;
 showSlides(slideIndex);
