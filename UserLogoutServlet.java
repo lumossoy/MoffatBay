@@ -24,7 +24,6 @@ public class UserLogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null) {
-        	session = request.getSession();
         	session.invalidate();
             session.removeAttribute("user");
             RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
