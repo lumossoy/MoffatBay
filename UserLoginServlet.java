@@ -1,3 +1,5 @@
+//Green Team: Juan Taylor, Christopher Kaiser, Emely Pajarito, Estiven Hernandez
+//Purpose: Object to store all information relative to a user
 package myBean;
 
 import java.io.*;
@@ -36,6 +38,7 @@ public class UserLoginServlet extends HttpServlet {
              
             if (user != null) {
                 HttpSession session = request.getSession();
+                session.setMaxInactiveInterval(600);
                 session.setAttribute("user", user);
                 destPage = "home.jsp";
             } else {
