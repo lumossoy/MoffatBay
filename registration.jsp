@@ -171,7 +171,7 @@ function validateForm() {
 </script>
 </head>
 <body>
-<img src="images/registerImage2.png" alt="registerImage" class="bg-img">
+<img src="images/registerImage3.png" alt="registerImage" class="bg-img">
 <form action="signup" method="POST">
     <div class="container">
         <h1>Moffat Bay Lodge</h1>
