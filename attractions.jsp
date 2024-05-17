@@ -1,3 +1,5 @@
+<!-- Green Team: Juan Taylor, Christopher Kaiser, Emely Pajarito, Estiven Hernandez  -->
+<!-- Purpose: Website page advertising various attractions offered by the lodge -->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -7,20 +9,11 @@
 
 <title>Attractions Page</title>
 <style>
-* {
-	box-sizing: border-box;
-}
-
-body {
+ body {
 	margin: 0;
 	padding: 0;
 	font-family: Arial, Helvetica, sans-serif;
 	color: #47525E;
-}
-
-h1 {
-	font-family: 'Berkshire Swash';
-	color: #1CADFB;
 }
 
 h2 {
@@ -41,84 +34,91 @@ h3 {
 #logo {
 	float: left;
 	display: inline-block;
-	width: 2%;
+	width: 5%;
 }
 
-.clear {
-	clear: both;
+header {
+    background-color: #FFFFFF;
+    width: 100%; 
+    height: 59px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    
 }
 
-#nav {
-	background-color: white;
-	color: #47525E;
-	width: 100%;
+h1 {
+    color: #1CADFB;
+    font-family: "Berkshire Swash", cursive;
+    font-size: 30px;
+    line-height: 39px;
+    margin: 0; 
 }
 
-.nav {
-	float: right;
-	list-style: none;
-	text-align: left;
-	/*padding: 0px -10px 0px -10px; */
-	margin: 0;
+.logo a {
+    text-decoration: none;
+    color: #1CADFB; 
 }
 
-/*max-width: 768px*/
-.nav>li {
-	display: Inline-block;
-	padding: 10px 9px 10px 9px;
+.logo a:hover {
+    text-decoration: none;
 }
 
-/*nav bar text*/
-.nav>li a {
-	text-decoration: none;
-	color: #47525E;
-	font-size: 14px;
-	padding: 5px 0px 5px 0px
+.logo a:visited {
+    color: #1CADFB; 
 }
 
-.nav>li>a:hover {
-	color: black;
-	*/
+nav ul {
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0; 
 }
 
-/* Set a style for all buttons */
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    color: #47525E;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
 button {
-	background-color: #1CADFB;
-	color: white;
-	border: none;
+    background-color: #1CADFB;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    text-decoration: none; 
 }
 
 .register {
-	padding: 14px 55px;
-	margin: 8px 0;
-	border: none;
-	cursor: pointer;
-	opacity: 0.9;
-	position: absolute;
-	left: 46%;
-	bottom: 350px;
+    padding: 14px 55px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+    position: absolute;
+    left: 46%;
+    bottom: 350px;
 }
 
 .bg {
-	height: 100vh;
-	width: 100%;
-}
-
-.topleft {
-	color: red;
-	position: absolute;
-	top: 65px;
-	left: 16px;
-	font-size: 25px;
+    height: 100vh;
+    width: 100%;
 }
 
 .centered {
-	position: absolute;
-	top: 40%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
-
 
 /*Css for image slideshow*/
 
@@ -172,6 +172,17 @@ img {
 	background-color: rgba(0, 0, 0, 0.8);
 }
 
+/* Container for image header text */
+.caption-container {
+	position: relative;
+	margin: auto;
+	font-size: x-large;
+	text-align: center;
+	background-color: black;
+	padding: 8px 16px;
+	color: white;
+}
+
 /* Numbered text for images 1-4 */
 .imgNum {
 	color: #f2f2f2;
@@ -182,7 +193,7 @@ img {
 }
 
 /* Container for image text */
-.caption-container {
+.attractionsTitles {
 	position: relative;
 	margin: auto;
 	font-size: x-large;
@@ -220,45 +231,51 @@ img {
 </style>
 </head>
 <body>
-<div id='nav'>
-	<img src="images/SalishSalmon.png" id="logo">
-	<nav>
-		<ul class="nav">
-			<li><a href="attractions.jsp">Attractions</a></li>
-			<li><a href="rooms.jsp">Rooms</a></li>
-			<li><a href="reservation.jsp">Reservations</a></li>
-			<li><a href="aboutUS.jsp">About Us</a></li>
-			<%if (request.isRequestedSessionIdValid() != true){ %>
-			<li><a href="login.jsp"><button type="submit">Login</button></a></li>
-			<%}else {%>
-			<li><a href="landingPage.jsp"><button type="submit">Logout</button></a></li>
-			<%}%>
-		</ul>
-	</nav>
-	<div class="clear"></div>
-</div>	
+ <div class="navigation">
+          <header>
+            <h1 class="logo"><a href="landingPage.jsp"><img src="images/SalishSalmon.png" alt="Moffat Bay Logo" id="logo">Moffat Bay Lodge</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="attractions.jsp">Attractions</a></li>
+                    <li><a href="rooms.jsp">Rooms</a></li>
+                    <li><a href="reservation.jsp">Reservations</a></li>
+                    <li><a href="aboutUS.jsp">About Us</a></li>
+                 	<%if (session.getAttribute("user") != null){ %>
+                	<li><a href="logout.jsp"><button type="submit"> (${user.email}) Logout</button></a></li>
+                	<%}else {%>
+                	<li><a href="login.jsp"><button type="submit">Login</button></a></li>
+                	<%}%>
+                </ul>
+            </nav>
+        </header>
+    </div>	
+    
+    <div class="attractionsTitles">
+    <p id="title"></p>
+    </div>
+    
     <!-- Container for the image gallery -->
 <div class="container">
 
   <!-- Full-width images with numbered text -->
   <div class="attractionSlides">
     <div class="imgNum">1 / 4</div>
-      <img src="images/hiking3.png" style = "width:100%;">
+      <img src="images/hiking3.png" style = "display: block; width: 99.1vw; height: 150vh; object-fit: fill;">
   </div>
 
   <div class="attractionSlides">
     <div class="imgNum">2 / 4</div>
-      <img src="images/kayaking.png" style = "width:100%">
+      <img src="images/kayaking.png" style = "display: block; width: 99.1vw; height: 150vh; object-fit: fill;">
   </div>
 
   <div class="attractionSlides">
     <div class="imgNum">3 / 4</div>
-      <img src="images/scuba-diving.png" style="width:100%">
+      <img src="images/scuba-diving.png" style = "display: block; width: 99.1vw; height: 100vh; object-fit: fill;">
   </div>
 
   <div class="attractionSlides">
     <div class="imgNum">4 / 4</div>
-      <img src="images/whale-watching.png" style="width:100%">
+      <img src="images/whale-watching.png" style = "display: block; width: 99.1vw; height: 100vh; object-fit: fill;">
   </div>
 
   <!-- Next and previous buttons -->
@@ -303,6 +320,8 @@ function showSlides(n) {
   let slides = document.getElementsByClassName("attractionSlides");
   let dots = document.getElementsByClassName("moffatTN");
   let captionText = document.getElementById("caption");
+  let titleText = document.getElementById("title");
+  const titles = ["Hiking", "Kayaking", "Scuba Diving", "Whale Watching"]
   if (n > slides.length) {slideIndex = 1}
   if (n < 1) {slideIndex = slides.length}
   for (i = 0; i < slides.length; i++) {
@@ -314,6 +333,7 @@ function showSlides(n) {
   slides[slideIndex-1].style.display = "block";
   dots[slideIndex-1].className += " active";
   captionText.innerHTML = dots[slideIndex-1].alt;
+  titleText.innerHTML = titles[slideIndex-1];
 }
 </script>
 </body>
