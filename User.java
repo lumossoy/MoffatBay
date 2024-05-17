@@ -1,4 +1,7 @@
+ // Green Team: Juan Taylor, Christopher Kaiser, Emely Pajarito, Estiven Hernandez
+ // Purpose: Object to store all information relative to a user
 package myBean;
+import BCrypt.BCrypt;
 
 public class User {
 	//attributes
@@ -7,13 +10,21 @@ public class User {
 	private String lastName;
 	private String email;
 	private String password;
-	private String telehphoneNumber;
+	private String telephoneNumber;
 	
 	//no-arg constructor
 	public User() {
-
+		super();
 	}
-
+	
+	//args constructor
+	public User(String firstName, String lastName, String email, String password, String telephoneNumber) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.telephoneNumber = telephoneNumber;
+	}
 	
 	//getters and setters
 	public int getUserID() {
@@ -46,16 +57,18 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getTelehphoneNumber() {
-		return telehphoneNumber;
+	public String getTelephoneNumber() {
+		return telephoneNumber;
 	}
-	public void setTelehphoneNumber(String telehphoneNumber) {
-		this.telehphoneNumber = telehphoneNumber;
+	public void setTelephoneNumber(String telephoneNumber) {
+		this.telephoneNumber = telephoneNumber;
 	}
 	
+	public static String encryptPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt(10));
+    }
 	
-	
-	
-	
-
+	public static boolean checkPassword(String password, String hashedPassword) {
+        return BCrypt.checkpw(password, hashedPassword);
+    }
 }
