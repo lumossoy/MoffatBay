@@ -1,3 +1,5 @@
+<!-- Green Team: Juan Taylor, Christopher Kaiser, Emely Pajarito, Estiven Hernandez  -->
+<!-- Purpose: Website page detailing a queen room  -->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -153,6 +155,24 @@ button {
             color: black;
             background-color: white;
         }
+        footer {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            background-color: #1CADFB;
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -164,8 +184,12 @@ button {
                     <li><a href="attractions.jsp">Attractions</a></li>
                     <li><a href="rooms.jsp">Rooms</a></li>
                     <li><a href="reservation.jsp">Reservations</a></li>
-                    <li><a href="aboutUs.jsp">About Us</a></li>
-                    <li><a href="login.jsp"><button type="submit">Login</button></a></li>
+                    <li><a href="aboutUS.jsp">About Us</a></li>
+                 <%if (session.getAttribute("user") != null){ %>
+                <li><a href="logout.jsp"><button type="submit"> (${user.email}) Logout</button></a></li>
+                <%}else {%>
+                <li><a href="login.jsp"><button type="submit">Login</button></a></li>
+                <%}%>
                 </ul>
             </nav>
         </header>
@@ -199,5 +223,9 @@ button {
             </div>
         </div>
     </div>
+    <!-- Footer -->
+    <footer>
+        <a href="landingPage.jsp">Back to Landing Page</a>
+    </footer>
 </body>
 </html>
