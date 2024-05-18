@@ -1,3 +1,5 @@
+<!-- Green Team: Juan Taylor, Christopher Kaiser, Emely Pajarito, Estiven Hernandez  -->
+<!-- Purpose: Webpage page to allow logged in users to create a reservation  -->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -128,39 +130,37 @@ $(function() {
 
 header {
     background-color: #FFFFFF;
-    width: 100%; /* Change to 100% for responsiveness */
+    width: 100%;
     height: 59px;
     display: flex;
-    justify-content: space-between; /* Align h1 and nav to opposite sides */
-    align-items: center; /* Align items vertically */
-    padding: 0 20px; /* Add padding for better spacing */
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
 }
+
 
 h1 {
     color: #1CADFB;
     font-family: "Berkshire Swash", cursive;
     font-size: 30px;
     line-height: 39px;
-    margin: 0; /* Remove default margin */
+    margin: 0;
 }
 
 .logo a {
     text-decoration: none;
-    color: #1CADFB; /* Set color for link */
+    color: #1CADFB;
 }
 
-.logo a:hover {
+.logo a:hover, .logo a:visited {
     text-decoration: none;
-}
-
-.logo a:visited {
-    color: #1CADFB; /* Set color for visited link */
+    color: #1CADFB;
 }
 
 nav ul {
-    list-style-type: none; /* Remove default bullet points */
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 nav ul li {
@@ -183,9 +183,10 @@ button {
     border: none;
     padding: 8px 16px;
     cursor: pointer;
-    text-decoration: none; 
+    text-decoration: none;
 }
-    .centered {
+
+   .centered {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -215,6 +216,24 @@ button {
         cursor: not-allowed; 
         color: white;
     }
+    footer {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            background-color: #1CADFB;
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
 </style>
 </head>
 <body>
@@ -226,8 +245,12 @@ button {
                     <li><a href="attractions.jsp">Attractions</a></li>
                     <li><a href="rooms.jsp">Rooms</a></li>
                     <li><a href="reservation.jsp">Reservations</a></li>
-                    <li><a href="aboutUs.jsp">About Us</a></li>
-                    <li><a href="login.jsp"><button type="submit">Login</button></a></li>
+                    <li><a href="aboutUS.jsp">About Us</a></li>
+                 <%if (session.getAttribute("user") != null){ %>
+                <li><a href="logout.jsp"><button type="submit"> (${user.email}) Logout</button></a></li>
+                <%}else {%>
+                <li><a href="login.jsp"><button type="submit">Login</button></a></li>
+                <%}%>
                 </ul>
             </nav>
         </header>
@@ -262,5 +285,9 @@ button {
             <% } %>
         </div>
     </div>
+     <!-- Footer -->
+    <footer>
+        <a href="landingPage.jsp">Back to Landing Page</a>
+    </footer>
 </body>
 </html>
