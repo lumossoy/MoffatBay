@@ -1,3 +1,5 @@
+<!-- Green Team: Juan Taylor, Christopher Kaiser, Emely Pajarito, Estiven Hernandez  -->
+<!-- Purpose: Website page advertising various attractions offered by the lodge -->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -7,11 +9,7 @@
 
 <title>Attractions Page</title>
 <style>
-* {
-	box-sizing: border-box;
-}
-
-body {
+ body {
 	margin: 0;
 	padding: 0;
 	font-family: Arial, Helvetica, sans-serif;
@@ -41,12 +39,12 @@ h3 {
 
 header {
     background-color: #FFFFFF;
-    width: 100%; /* Change to 100% for responsiveness */
+    width: 100%; 
     height: 59px;
     display: flex;
-    justify-content: space-between; /* Align h1 and nav to opposite sides */
-    align-items: center; /* Align items vertically */
-    padding: 0 20px; /* Add padding for better spacing */
+    justify-content: space-between; 
+    align-items: center; 
+    
 }
 
 h1 {
@@ -54,12 +52,12 @@ h1 {
     font-family: "Berkshire Swash", cursive;
     font-size: 30px;
     line-height: 39px;
-    margin: 0; /* Remove default margin */
+    margin: 0; 
 }
 
 .logo a {
     text-decoration: none;
-    color: #1CADFB; /* Set color for link */
+    color: #1CADFB; 
 }
 
 .logo a:hover {
@@ -67,13 +65,13 @@ h1 {
 }
 
 .logo a:visited {
-    color: #1CADFB; /* Set color for visited link */
+    color: #1CADFB; 
 }
 
 nav ul {
-    list-style-type: none; /* Remove default bullet points */
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0; 
 }
 
 nav ul li {
@@ -100,36 +98,27 @@ button {
 }
 
 .register {
-	padding: 14px 55px;
-	margin: 8px 0;
-	border: none;
-	cursor: pointer;
-	opacity: 0.9;
-	position: absolute;
-	left: 46%;
-	bottom: 350px;
+    padding: 14px 55px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+    position: absolute;
+    left: 46%;
+    bottom: 350px;
 }
 
 .bg {
-	height: 100vh;
-	width: 100%;
-}
-
-.topleft {
-	color: red;
-	position: absolute;
-	top: 65px;
-	left: 16px;
-	font-size: 25px;
+    height: 100vh;
+    width: 100%;
 }
 
 .centered {
-	position: absolute;
-	top: 40%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
-
 
 /*Css for image slideshow*/
 
@@ -145,6 +134,8 @@ img {
 /* Hide the images by default */
 .attractionSlides {
 	display: none;
+	object-fit: contain;
+	
 }
 
 /* Add a pointer when hovering over the thumbnail images */
@@ -181,6 +172,17 @@ img {
 	background-color: rgba(0, 0, 0, 0.8);
 }
 
+/* Container for image header text */
+.caption-container {
+	position: relative;
+	margin: auto;
+	font-size: x-large;
+	text-align: center;
+	background-color: black;
+	padding: 8px 16px;
+	color: white;
+}
+
 /* Numbered text for images 1-4 */
 .imgNum {
 	color: #f2f2f2;
@@ -191,7 +193,9 @@ img {
 }
 
 /* Container for image text */
-.caption-container {
+.attractionsTitles {
+	position: relative;
+	margin: auto;
 	font-size: x-large;
 	text-align: center;
 	background-color: black;
@@ -214,51 +218,81 @@ img {
 /* Add a transparency effect for thumnbail images */
 .moffatTN {
 	opacity: 0.6;
+	width: 24.8vw; 
+	height: 20vw; 
+	object-fit: fill; 
+	overflow: hidden;
 }
 
 .active,
 .moffatTN:hover {
 	opacity: 1;
 }
+
+footer {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            background-color: #1CADFB;
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
 </style>
 </head>
 <body>
-  <div class="navigation">
-        <header>
+ <div class="navigation">
+          <header>
             <h1 class="logo"><a href="landingPage.jsp"><img src="images/SalishSalmon.png" alt="Moffat Bay Logo" id="logo">Moffat Bay Lodge</a></h1>
             <nav>
                 <ul>
                     <li><a href="attractions.jsp">Attractions</a></li>
                     <li><a href="rooms.jsp">Rooms</a></li>
                     <li><a href="reservation.jsp">Reservations</a></li>
-                    <li><a href="aboutUs.jsp">About Us</a></li>
-                    <li><a href="login.jsp"><button type="submit">Login</button></a></li>
+                    <li><a href="aboutUS.jsp">About Us</a></li>
+                 	<%if (session.getAttribute("user") != null){ %>
+                	<li><a href="logout.jsp"><button type="submit"> (${user.email}) Logout</button></a></li>
+                	<%}else {%>
+                	<li><a href="login.jsp"><button type="submit">Login</button></a></li>
+                	<%}%>
                 </ul>
             </nav>
         </header>
+    </div>	
+    
+    <div class="attractionsTitles">
+    <p id="title"></p>
     </div>
+    
     <!-- Container for the image gallery -->
 <div class="container">
 
   <!-- Full-width images with numbered text -->
   <div class="attractionSlides">
     <div class="imgNum">1 / 4</div>
-      <img src="images/hiking1.png" style = "width:100%">
+      <img src="images/hiking3.png" style = "display: block; width: 99.1vw; height: 150vh; object-fit: fill;">
   </div>
 
   <div class="attractionSlides">
     <div class="imgNum">2 / 4</div>
-      <img src="images/kayaking.png" style = "width:100%">
+      <img src="images/kayaking.png" style = "display: block; width: 99.1vw; height: 150vh; object-fit: fill;">
   </div>
 
   <div class="attractionSlides">
     <div class="imgNum">3 / 4</div>
-      <img src="images/scuba-diving.png" style="width:100%">
+      <img src="images/scuba-diving.png" style = "display: block; width: 99.1vw; height: 100vh; object-fit: fill;">
   </div>
 
   <div class="attractionSlides">
     <div class="imgNum">4 / 4</div>
-      <img src="images/whale-watching.png" style="width:100%">
+      <img src="images/whale-watching.png" style = "display: block; width: 99.1vw; height: 100vh; object-fit: fill;">
   </div>
 
   <!-- Next and previous buttons -->
@@ -269,23 +303,23 @@ img {
   <div class="caption-container">
     <p id="caption"></p>
   </div>
-
+</div>
   <!-- Thumbnail images -->
   <div class="row">
     <div class="column">
-      <img class="moffatTN cursor" src="images/hiking1.png" style = "width:100%;" onclick="currentSlide(1)" alt = "Have an adventure on our various hiking trails">
+      <img class="moffatTN cursor" src="images/hiking3.png" onclick = "currentSlide(1)" alt = "Have an adventure on our various hiking trails">
     </div>
     <div class="column">
-      <img class="moffatTN cursor" src="images/kayaking.png" style = "width:100%" onclick = "currentSlide(2)"  alt = "Enjoy kayaking our illustrous rivers">
+      <img class="moffatTN cursor" src="images/kayaking.png" onclick = "currentSlide(2)"  alt = "Enjoy kayaking our illustrous rivers">
     </div>
     <div class="column">
-      <img class="moffatTN cursor" src="images/scuba-diving.png" style = "width:100%" onclick = "currentSlide(3)"  alt = "Scuba dive and visit the world's finest wilderness benath the waves">
+      <img class="moffatTN cursor" src="images/scuba-diving.png" onclick = "currentSlide(3)"  alt = "Scuba dive and visit the world's finest wilderness benath the waves">
     </div>
     <div class="column">
-      <img class="moffatTN cursor" src="images/whale-watching.png" style = "width:100%" onclick = "currentSlide(4)"  alt = "Relax and watch the whales">
+      <img class="moffatTN cursor" src="images/whale-watching.png" onclick = "currentSlide(4)"  alt = "Relax and watch the whales">
     </div>
   </div>
-</div>
+
 <script>
 let slideIndex = 1;
 showSlides(slideIndex);
@@ -303,6 +337,8 @@ function showSlides(n) {
   let slides = document.getElementsByClassName("attractionSlides");
   let dots = document.getElementsByClassName("moffatTN");
   let captionText = document.getElementById("caption");
+  let titleText = document.getElementById("title");
+  const titles = ["Hiking", "Kayaking", "Scuba Diving", "Whale Watching"]
   if (n > slides.length) {slideIndex = 1}
   if (n < 1) {slideIndex = slides.length}
   for (i = 0; i < slides.length; i++) {
@@ -314,7 +350,12 @@ function showSlides(n) {
   slides[slideIndex-1].style.display = "block";
   dots[slideIndex-1].className += " active";
   captionText.innerHTML = dots[slideIndex-1].alt;
+  titleText.innerHTML = titles[slideIndex-1];
 }
 </script>
+ <!-- Footer -->
+    <footer>
+        <a href="landingPage.jsp">Back to Landing Page</a>
+    </footer>
 </body>
 </html>
