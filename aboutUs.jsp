@@ -1,3 +1,5 @@
+<!-- Green Team: Juan Taylor, Christopher Kaiser, Emely Pajarito, Estiven Hernandez  -->
+<!-- Purpose: About Us page providing contact information and history  -->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -118,6 +120,24 @@ h3 {
  	line-height: 32px;
   	text-align: left;
 }
+footer {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            background-color: #1CADFB;
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
     	
     </style>
 </head>
@@ -130,8 +150,12 @@ h3 {
                     <li><a href="attractions.jsp">Attractions</a></li>
                     <li><a href="rooms.jsp">Rooms</a></li>
                     <li><a href="reservation.jsp">Reservations</a></li>
-                    <li><a href="aboutUs.jsp">About Us</a></li>
-					<li><a href="login.jsp"><button type="submit">Login</button></a></li>
+                    <li><a href="aboutUS.jsp">About Us</a></li>
+                 <%if (session.getAttribute("user") != null){ %>
+                <li><a href="logout.jsp"><button type="submit"> (${user.email}) Logout</button></a></li>
+                <%}else {%>
+                <li><a href="login.jsp"><button type="submit">Login</button></a></li>
+                <%}%>
                 </ul>
             </nav>
         </header>
@@ -155,5 +179,11 @@ h3 {
             <img src="images/aboutUs.png" alt="Owners and Staff">
         </div>
     </div>
+    <div class="container" style="text-align: center; padding: 20px; margin-top: 20px;">
+        <img src="images/Lodge.jpg" alt="Lodge View" style="width: 100%; height: auto;">
+    </div>
+        <footer>
+        <a href="landingPage.jsp">Back to Landing Page</a>
+    </footer>
 </body>
 </html>
